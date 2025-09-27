@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.ActivityCheckoutBinding
+//oiuytf
 
 class CheckoutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheckoutBinding
