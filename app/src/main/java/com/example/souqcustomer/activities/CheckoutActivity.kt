@@ -10,6 +10,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.ActivityCheckoutBinding
 
+//this is deyaa bracnch....!!!
+
 class CheckoutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheckoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
