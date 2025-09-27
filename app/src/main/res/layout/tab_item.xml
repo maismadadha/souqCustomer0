@@ -1,0 +1,8 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/cairo_bold"
+    android:textSize="16sp"
+    android:gravity="center"
+    android:textColor="@color/black"/>

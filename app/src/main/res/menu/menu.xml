@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_selector"
+        android:title="حسابي" />
+
+    <item
+        android:id="@+id/favouriteFragment"
+        android:icon="@drawable/favorite_selector"
+        android:title="المفضلة" />
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_selector"
+        android:title="الرئيسية"
+        android:checked="true"/>
+
+    <item
+        android:id="@+id/categoriesFragment"
+        android:icon="@drawable/categories_selector"
+        android:title="التصنيفات" />
+
+
+    <item
+        android:id="@+id/orderFragment"
+        android:icon="@drawable/order_selector"
+        android:title="طلباتي" />
+
+</menu>

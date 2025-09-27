@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NoActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+
+    <style name="TabTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/cairo_bold</item>
+
+    </style>
+
+
+</resources>
