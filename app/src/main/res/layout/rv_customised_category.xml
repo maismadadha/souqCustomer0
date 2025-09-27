@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="8dp"
     android:layout_marginBottom="10dp"
+    android:backgroundTint="@color/white_cart_item"
     app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/card_shadow"
         android:paddingHorizontal="10dp"
         android:gravity="center_vertical|end">
 
         <ImageView
             android:id="@+id/btn_favourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:scaleType="centerCrop"
             android:src="@drawable/btn_favourite_selector" />
         <View
@@ -37,8 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="لونا باجز"
-                android:textSize="20sp"
-                android:fontFamily="@font/cairo_bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/cairo_semi_bold"
                 android:textColor="@color/black" />
 
             <TextView
@@ -46,19 +46,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="صحة و جمال"
-                android:textSize="10sp"
-                android:fontFamily="@font/cairo_medium"
+                android:textSize="8sp"
+                android:fontFamily="@font/cairo_regular"
                 android:textColor="@color/black" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/store_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/img_store"
-            android:scaleType="centerCrop"
-            />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            app:strokeWidth="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/store_logo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/img_store"
+                android:scaleType="centerCrop"
+                />
+        </com.google.android.material.card.MaterialCardView>
+
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

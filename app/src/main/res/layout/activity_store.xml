@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_arrow_to_go_back" />
 
             <View
@@ -83,9 +83,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="-75dp"
+                android:layout_marginTop="-70dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,8 +109,8 @@
 
                         <ImageView
                             android:id="@+id/btn_favourite"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/btn_favourite_selector" />
 
@@ -139,10 +139,10 @@
                                 android:id="@+id/store_category_card"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/cairo_medium"
+                                android:fontFamily="@font/cairo_regular"
                                 android:text=" أزياء و ملابس"
                                 android:textColor="@color/gray_search_text"
-                                android:textSize="14sp" />
+                                android:textSize="10sp" />
 
 
                         </LinearLayout>
@@ -162,8 +162,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingHorizontal="20dp">
 
@@ -173,25 +172,52 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
-                            android:fontFamily="@font/cairo_semi_bold"
+                            android:fontFamily="@font/cairo_medium"
                             android:text="1.00 د.أ"
-                            android:textColor="@color/gray_hint_text"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/delivery_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
-                            android:fontFamily="@font/cairo_semi_bold"
-                            android:text="2-3 ساعة"
-                            android:textColor="@color/gray_hint_text"
-                            android:textSize="16sp" />
+                            android:fontFamily="@font/cairo_medium"
+                            android:text="50-55 دقيقة"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:fontFamily="@font/cairo_bold"
+                                android:text="سوق"
+                                android:textColor="@color/old_mauve"
+                                android:textSize="10sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="4dp"
+                                android:fontFamily="@font/cairo_medium"
+                                android:text="التوصيل بواسطة"
+                                android:textColor="@color/black"
+                                android:textSize="10sp" />
+
+
+                        </LinearLayout>
 
 
                     </LinearLayout>

@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/cart" />
 
@@ -48,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/notification" />
         </LinearLayout>
@@ -76,8 +76,8 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_search" />
 
@@ -106,17 +106,17 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/cairo_extra_bold"
+            android:fontFamily="@font/cairo_bold"
             android:text="تسوق حسب الفئات"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             tools:itemCount="1"
              />
@@ -126,17 +126,17 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/cairo_extra_bold"
+            android:fontFamily="@font/cairo_bold"
             android:text="متاجر مقترحة"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_suggested_stores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             tools:itemCount="1"
 
@@ -147,17 +147,17 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/cairo_extra_bold"
+            android:fontFamily="@font/cairo_bold"
             android:text="آخر المنتجات"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_new_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             tools:itemCount="1"
 
@@ -168,11 +168,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/cairo_black"
             android:gravity="center"
-            android:text="..."
+            android:text=" "
             android:textColor="@color/mauve"
             android:textSize="18sp" />
     </LinearLayout>

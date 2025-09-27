@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SouqCustomer">
         <activity
+            android:name=".activities.AddNewAddressActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddressesActivity"
             android:exported="false" />
         <activity

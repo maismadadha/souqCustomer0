@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_arrow_to_go_back" />
 
             <View
@@ -75,26 +75,33 @@
                 app:lottie_rawRes="@raw/test" />
 
             <LinearLayout
-                android:id="@+id/location_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="20dp">
+                android:gravity="center_vertical|right"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/arrival_time"
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/change_address"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
+                    android:background="@drawable/mauve_bt_bg"
+                    android:elevation="0dp"
                     android:fontFamily="@font/cairo_regular"
-                    android:text="سيصل خلال 2 ساعة"
-                    android:textColor="@color/gray_hint_text" />
+                    android:gravity="center"
+                    android:stateListAnimator="@null"
+                    android:text="تغيير"
+                    android:textColor="@color/old_mauve"
+                    android:textSize="8sp" />
+
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -107,8 +114,8 @@
                         android:id="@+id/address_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_bold"
-                        android:text="التوصيل الى - المنزل"
+                        android:fontFamily="@font/cairo_semi_bold"
+                        android:text="المنزل"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -116,28 +123,30 @@
                         android:id="@+id/address_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_semi_bold"
+                        android:fontFamily="@font/cairo_medium"
                         android:text="جبل طارق - قضاء الزرقاء - الأردن"
                         android:textColor="@color/gray_hint_text"
-                        android:textSize="12sp" />
+                        android:textSize="8sp" />
+
+
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/location_pin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/location_pin" />
+
+
             </LinearLayout>
 
             <View
-                android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/gray" />
 
-            <!-- Payment method -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="@font/cairo_extra_bold"
+                    android:fontFamily="@font/cairo_bold"
                     android:text="طريقة الدفع"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -191,10 +200,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
-                                android:fontFamily="@font/cairo_bold"
+                                android:fontFamily="@font/cairo_medium"
                                 android:text="أضف بطاقة"
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <View
@@ -226,10 +235,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
-                                android:fontFamily="@font/cairo_bold"
+                                android:fontFamily="@font/cairo_medium"
                                 android:text="كاش"
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -241,7 +250,7 @@
                 android:layout_gravity="right"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/cairo_extra_bold"
+                android:fontFamily="@font/cairo_bold"
                 android:text="الفاتورة"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -263,7 +272,7 @@
                         android:id="@+id/sub_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_semi_bold"
+                        android:fontFamily="@font/cairo_medium"
                         android:text="80.00 د.أ"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
@@ -295,7 +304,7 @@
                         android:id="@+id/delivery_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_semi_bold"
+                        android:fontFamily="@font/cairo_medium"
                         android:text="20.00 د.أ"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
@@ -327,7 +336,7 @@
                         android:id="@+id/total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_bold"
+                        android:fontFamily="@font/cairo_semi_bold"
                         android:text="100.00 د.أ"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -340,7 +349,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_bold"
+                        android:fontFamily="@font/cairo_semi_bold"
                         android:text="المبلغ الاجمالي"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
@@ -358,7 +367,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

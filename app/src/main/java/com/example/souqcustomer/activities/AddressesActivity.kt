@@ -1,5 +1,6 @@
 package com.example.souqcustomer.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,12 @@ class AddressesActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
+
+        binding.addAddressBtn.setOnClickListener {
+            val intent = Intent(this, AddNewAddressActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 }

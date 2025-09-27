@@ -32,7 +32,7 @@
                 android:id="@+id/store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_bold"
+                android:fontFamily="@font/cairo_medium"
                 android:text="ميلا شوب"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -43,8 +43,8 @@
                 android:layout_weight="1" />
             <ImageView
                 android:id="@+id/btn_favourite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/btn_favourite_selector" />
 

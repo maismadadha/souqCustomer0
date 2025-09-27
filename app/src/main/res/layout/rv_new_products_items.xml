@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
-    android:layout_height="210dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:backgroundTint="@color/white"
     app:strokeWidth="0dp">
@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/new_product_cover"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="150dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_product" />
 
@@ -23,22 +23,22 @@
             android:id="@+id/producte_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/cairo_semi_bold"
+            android:fontFamily="@font/cairo_medium"
             android:gravity="center"
-            android:text="عطر Vanilla"
+            android:text="عطر Vanlla"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/cairo_bold"
+            android:fontFamily="@font/cairo_medium"
             android:gravity="center"
             android:text="15.00 JD"
             android:textColor="@color/mauve"
             android:layout_marginBottom="5dp"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
     </LinearLayout>
 
