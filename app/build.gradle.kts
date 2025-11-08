@@ -56,5 +56,14 @@ dependencies {
 
     implementation("com.airbnb.android:lottie:6.0.0")
 
+        // Retrofit core library
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+        // Converter library for JSON serialization/deserialization (e.g., Gson)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")// Use the same version as Retrofit
+    implementation ("com.google.code.gson:gson:2.10.1")// Use the latest stable version of Gson
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
 
 }

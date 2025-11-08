@@ -21,6 +21,10 @@ class CartActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val adapter = CartItemsAdapter(object : OnClick{
+            override fun OnClick1(index: Int) {
+                //
+            }
+
             override fun OnClick(index: Int) {
                 val intent = Intent(this@CartActivity, ProductActivity::class.java)
                 startActivity(intent)
