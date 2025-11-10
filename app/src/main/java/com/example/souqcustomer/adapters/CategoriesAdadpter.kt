@@ -9,7 +9,6 @@ import com.example.souqcustomer.databinding.RvCategoriesItemsBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.Categories2Item
-import com.example.souqcustomer.pojo.CategoriesItem
 
 class CategoriesAdadpter(
     var categories2: ArrayList<Categories2Item>,
@@ -41,7 +40,7 @@ class CategoriesAdadpter(
             .into(holder.binding.imgCategory)
 
         holder.itemView.setOnClickListener {
-            listener.OnClick1(item.id)
+            listener.OnClick(item.id)
         }
 
     }

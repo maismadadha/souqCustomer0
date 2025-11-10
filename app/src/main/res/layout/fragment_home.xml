@@ -139,7 +139,7 @@
             android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
             tools:itemCount="1"
-
+            android:layoutDirection="ltr"
             />
 
         <TextView

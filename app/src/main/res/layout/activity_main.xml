@@ -67,20 +67,6 @@
             android:textColorHint="@color/gray_hint_text"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/et_bg_sginup"
-            android:fontFamily="@font/cairo_regular"
-            android:hint="المدينة"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray_hint_text"
-            android:textSize="14sp" />
-
-
 
     </LinearLayout>
 
@@ -107,14 +93,15 @@
             android:text="تأكيد"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
         <TextView
             android:id="@+id/do_you_have_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="هل لديك حساب؟"
-            android:gravity="center"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/cairo_semi_bold"
+            android:gravity="center"
+            android:text="هل لديك حساب؟"
             android:textColor="@color/black"
             android:textSize="14sp" />
     </LinearLayout>

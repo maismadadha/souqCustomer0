@@ -23,8 +23,6 @@ import com.example.souqcustomer.adapters.SuggestedStoresAdapter
 import com.example.souqcustomer.databinding.FragmentHomeBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Categories2Item
-import com.example.souqcustomer.pojo.User
-import com.example.souqcustomer.pojo.Users
 import com.example.souqcustomer.viewModel.UserViewModel
 import androidx.lifecycle.Observer
 
@@ -33,6 +31,8 @@ class homeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var categoriesAdapter : CategoriesAdadpter
+    private lateinit var sliderAdsAdapter : SliderAdapter
+    private lateinit var sellersAdapter: SuggestedStoresAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,34 +53,17 @@ class homeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //sliderAds
+        viewModel.getSliderAds()
+        observeSliderAds()
+
         //Categories
         viewModel.getCategories2()
         observeCategories2()
-//        binding.rvCategories.adapter = categoriesAdapter
-//        binding.rvCategories.layoutManager =
-//            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
 
-
-
-        //store
-        viewModel.getCategories()
-        getCategoriesData()
-        binding.rvSuggestedStores.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        binding.rvSuggestedStores.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-
-
-        //Slider
-        val sliderAdapter = SliderAdapter()
-        binding.rvSlider.adapter = sliderAdapter
-        binding.rvSlider.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(binding.rvSlider)
-        binding.indicator.attachToRecyclerView(binding.rvSlider, snapHelper)
-        sliderAdapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
+        //sellers
+        viewModel.getSellers()
+        observeSellers()
 
 
 
@@ -110,19 +93,41 @@ class homeFragment : Fragment() {
     }//onViewCreated
 
 
+
+    private fun observeSliderAds() {
+        viewModel.getLiveSliderAds().observe(viewLifecycleOwner){list ->
+            sliderAdsAdapter= SliderAdapter(
+                ArrayList(list),
+                object : OnClick{
+                    override fun OnClick(index: Int) {
+                        val intent = Intent(requireContext(), StoreActivity::class.java)
+                        startActivity(intent)
+                    }//onClick
+                }//object
+            )
+            binding.rvSlider.adapter = sliderAdsAdapter
+            binding.rvSlider.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(binding.rvSlider)
+            binding.indicator.attachToRecyclerView(binding.rvSlider, snapHelper)
+            sliderAdsAdapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
+
+        }
+    }
+
+
     private fun observeCategories2() {
         viewModel.getLiveCategories2().observe(viewLifecycleOwner) { list ->
             categoriesAdapter= CategoriesAdadpter(
                 ArrayList(list),
                 object : OnClick{
                     override fun OnClick(index: Int) {
-                        //
-                    }
-
-                    override fun OnClick1(index: Int) {
                         val intent = Intent(requireContext(), CustomisedCategoryActivity::class.java)
+                        startActivity(intent)
                     }
-                }
+                }//object
             )
             binding.rvCategories.apply {
                 adapter=categoriesAdapter
@@ -132,26 +137,27 @@ class homeFragment : Fragment() {
         }
     }
 
-    //observeCategories2
-
-
-
-
-    private fun getCategoriesData() {
-        viewModel.getLiveCategories().observe(viewLifecycleOwner) {
-            val stores = it
-            val suggestedStoresAdapter = SuggestedStoresAdapter(object : OnClick {
-                override fun OnClick1(index: Int) {
-                }
-                override fun OnClick(index: Int) {
+    private fun observeSellers() {
+        viewModel.getLiveSellers().observe(viewLifecycleOwner){list->
+            sellersAdapter= SuggestedStoresAdapter(
+                ArrayList(list),
+                object : OnClick{
+                    override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
                         startActivity(intent)
                     }
-                }, stores
+                }//ob1ject
             )
-            binding.rvSuggestedStores.adapter = suggestedStoresAdapter
+            binding.rvSuggestedStores.adapter = sellersAdapter
+            binding.rvSuggestedStores.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         }
-    }//getCategoriesData
+
+    }
+
+
+
 
 
 }

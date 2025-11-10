@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="250dp"
-    android:layout_height="150dp"
+    android:layout_width="270dp"
+    android:layout_height="170dp"
     android:layout_margin="5dp"
-    android:backgroundTint="@color/white"
+    android:backgroundTint="@color/white_cart_item"
     app:strokeWidth="0dp">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/store_cover"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/sliderpic" />
 
@@ -27,20 +27,6 @@
             android:orientation="horizontal">
 
 
-
-            <TextView
-                android:id="@+id/store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_medium"
-                android:text="ميلا شوب"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
             <ImageView
                 android:id="@+id/btn_favourite"
                 android:layout_width="30dp"
@@ -48,6 +34,19 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/btn_favourite_selector" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_bold"
+                android:text="ميلا شوب"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
         </LinearLayout>

@@ -37,7 +37,7 @@ class AllCategoriesAdapter(
             .into(holder.binding.imgCategory)
 
         holder.itemView.setOnClickListener {
-            listener.OnClick1(item.id)
+            listener.OnClick(item.id)
         }
     }
 

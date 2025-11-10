@@ -1,5 +1,6 @@
 package com.example.souqcustomer.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,11 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvSuggestedStoresItemsBinding
 import com.example.souqcustomer.R
 import com.example.souqcustomer.interface0.OnClick
-import com.example.souqcustomer.pojo.CategoriesItem
-import com.example.souqcustomer.pojo.User
-import com.example.souqcustomer.pojo.Users
+import com.example.souqcustomer.pojo.SellersItem
 
-class SuggestedStoresAdapter(val listener : OnClick, val categories: ArrayList<CategoriesItem>): RecyclerView.Adapter<SuggestedStoresAdapter.SuggestedStoresViewHolder>() {
+class SuggestedStoresAdapter( var sellers: ArrayList<SellersItem>,var listener : OnClick): RecyclerView.Adapter<SuggestedStoresAdapter.SuggestedStoresViewHolder>() {
     inner class SuggestedStoresViewHolder(val binding: RvSuggestedStoresItemsBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -19,6 +18,8 @@ class SuggestedStoresAdapter(val listener : OnClick, val categories: ArrayList<C
         viewType: Int
     ): SuggestedStoresViewHolder {
         val binding = RvSuggestedStoresItemsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        Log.d("Sellers", "onBindViewHolder: $sellers")
+
         return SuggestedStoresViewHolder(binding)
     }
 
@@ -26,12 +27,17 @@ class SuggestedStoresAdapter(val listener : OnClick, val categories: ArrayList<C
         holder: SuggestedStoresViewHolder,
         position: Int
     ) {
+        Log.d("Sellers", "onBindViewHolder: $sellers")
+        val item = sellers[position]
+        holder.binding.storeName.text=item.name?:""
+        Glide.with(holder.itemView.context)
+            .load(item.store_cover_url ?: "")
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
+            .into(holder.binding.storeCover)
 
-        holder.binding.storeName.text=categories.get(position).name
 
-
-   holder.binding.storeCover.setImageResource(R.drawable.sliderpic)
-//        holder.binding.storeName.text="ميلا شوب"
 
         holder.binding.btnFavourite.isSelected=false
         holder.binding.btnFavourite.setOnClickListener {
@@ -43,5 +49,5 @@ class SuggestedStoresAdapter(val listener : OnClick, val categories: ArrayList<C
         }
     }
 
-    override fun getItemCount(): Int =5
+    override fun getItemCount(): Int =sellers.size
 }
