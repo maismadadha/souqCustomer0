@@ -1,5 +1,6 @@
 package com.example.souqcustomer.retrofit
 
+import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.CreateCustomerRequest
 import com.example.souqcustomer.pojo.CreateCustomerResponse
@@ -38,4 +39,7 @@ interface souqApi {
 
     @GET("seller-profiles")
     fun getSellers(): Call<Sellers>
+
+    @GET("products")
+    fun getAllProducts(): Call<AllProducts>
 }

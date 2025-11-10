@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.Sellers
 import com.example.souqcustomer.pojo.SliderAds
@@ -19,6 +20,7 @@ class UserViewModel : ViewModel() {
     private val sliderAds= MutableLiveData<SliderAds>()
     private val _categories2 = MutableLiveData<Categories2>()
     private val sellers = MutableLiveData<Sellers>()
+    private val allProducts= MutableLiveData<AllProducts>()
 
 
     fun getSliderAds(){
@@ -78,6 +80,25 @@ class UserViewModel : ViewModel() {
         })
     }
 
+    fun getAllProducts(){
+        RetrofitInterface.api.getAllProducts().enqueue(object : Callback<AllProducts>{
+            override fun onResponse(
+                call: Call<AllProducts?>,
+                response: Response<AllProducts?>
+            ) {
+                if (response.isSuccessful)
+                    allProducts.value=response.body()
+            }
+
+            override fun onFailure(
+                call: Call<AllProducts?>,
+                t: Throwable
+            ) {
+                Log.d("allProductsViewModel",t.message.toString())
+            }
+        })
+    }
+
 
     fun getLiveSliderAds(): LiveData<SliderAds>{
         return sliderAds
@@ -88,6 +109,9 @@ class UserViewModel : ViewModel() {
 
     fun getLiveSellers(): LiveData<Sellers>{
         return sellers
+    }
+    fun getLiveAllProducts(): LiveData<AllProducts>{
+        return allProducts
     }
 
 

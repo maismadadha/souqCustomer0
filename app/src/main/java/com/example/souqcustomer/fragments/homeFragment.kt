@@ -25,14 +25,16 @@ import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Categories2Item
 import com.example.souqcustomer.viewModel.UserViewModel
 import androidx.lifecycle.Observer
+import com.example.souqcustomer.activities.ProductActivity
 
 
 class homeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: UserViewModel
-    private lateinit var categoriesAdapter : CategoriesAdadpter
-    private lateinit var sliderAdsAdapter : SliderAdapter
+    private lateinit var categoriesAdapter: CategoriesAdadpter
+    private lateinit var sliderAdsAdapter: SliderAdapter
     private lateinit var sellersAdapter: SuggestedStoresAdapter
+    private lateinit var newProductsAdapter: NewProductsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +42,10 @@ class homeFragment : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -65,14 +67,9 @@ class homeFragment : Fragment() {
         viewModel.getSellers()
         observeSellers()
 
-
-
         //new products
-        val newProductsAdapter = NewProductsAdapter()
-        binding.rvNewProducts.layoutDirection = View.LAYOUT_DIRECTION_RTL
-        binding.rvNewProducts.adapter = newProductsAdapter
-        binding.rvNewProducts.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        viewModel.getAllProducts()
+        observeNewProducts()
 
 
 
@@ -93,12 +90,11 @@ class homeFragment : Fragment() {
     }//onViewCreated
 
 
-
     private fun observeSliderAds() {
-        viewModel.getLiveSliderAds().observe(viewLifecycleOwner){list ->
-            sliderAdsAdapter= SliderAdapter(
+        viewModel.getLiveSliderAds().observe(viewLifecycleOwner) { list ->
+            sliderAdsAdapter = SliderAdapter(
                 ArrayList(list),
-                object : OnClick{
+                object : OnClick {
                     override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
                         startActivity(intent)
@@ -120,28 +116,29 @@ class homeFragment : Fragment() {
 
     private fun observeCategories2() {
         viewModel.getLiveCategories2().observe(viewLifecycleOwner) { list ->
-            categoriesAdapter= CategoriesAdadpter(
+            categoriesAdapter = CategoriesAdadpter(
                 ArrayList(list),
-                object : OnClick{
+                object : OnClick {
                     override fun OnClick(index: Int) {
-                        val intent = Intent(requireContext(), CustomisedCategoryActivity::class.java)
+                        val intent =
+                            Intent(requireContext(), CustomisedCategoryActivity::class.java)
                         startActivity(intent)
                     }
                 }//object
             )
             binding.rvCategories.apply {
-                adapter=categoriesAdapter
+                adapter = categoriesAdapter
                 binding.rvCategories.layoutManager =
-            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+                    GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
             }
         }
     }
 
     private fun observeSellers() {
-        viewModel.getLiveSellers().observe(viewLifecycleOwner){list->
-            sellersAdapter= SuggestedStoresAdapter(
+        viewModel.getLiveSellers().observe(viewLifecycleOwner) { list ->
+            sellersAdapter = SuggestedStoresAdapter(
                 ArrayList(list),
-                object : OnClick{
+                object : OnClick {
                     override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
                         startActivity(intent)
@@ -156,8 +153,25 @@ class homeFragment : Fragment() {
 
     }
 
+    private fun observeNewProducts() {
+        viewModel.getLiveAllProducts().observe(viewLifecycleOwner) { list ->
+            newProductsAdapter = NewProductsAdapter(
+                ArrayList(list),
+                object : OnClick {
+                    override fun OnClick(index: Int) {
+                        val intent = Intent(requireContext(), ProductActivity::class.java)
+                        startActivity(intent)
+                    }
+                }//object
+            )
+            binding.rvNewProducts.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            binding.rvNewProducts.adapter = newProductsAdapter
+            binding.rvNewProducts.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
+        }
+    }
 
 
 }
