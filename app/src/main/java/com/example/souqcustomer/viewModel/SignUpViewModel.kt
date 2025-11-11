@@ -16,8 +16,6 @@ class SignUpViewModel : ViewModel() {
 
     private val signupLiveData = MutableLiveData<CreateCustomerResponse>()
     private val errorLiveData = MutableLiveData<String>()
-
-
     private val loginLiveData= MutableLiveData<LoginResponse>()
     private val errorLoginLiveData = MutableLiveData<String>()
 
@@ -85,6 +83,8 @@ class SignUpViewModel : ViewModel() {
                     call: Call<CreateCustomerResponse>,
                     t: Throwable
                 ) {
+                    Log.d("signupF",t.message.toString())
+                    Log.d("signupF",t.cause.toString())
                     errorLiveData.value = t.message ?: "مشكلة في الاتصال"
                 }
             })

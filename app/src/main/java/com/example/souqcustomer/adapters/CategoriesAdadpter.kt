@@ -40,7 +40,10 @@ class CategoriesAdadpter(
             .into(holder.binding.imgCategory)
 
         holder.itemView.setOnClickListener {
-            listener.OnClick(item.id)
+            val categoryId=item.id
+            if (categoryId != null) {
+                listener.OnClick(categoryId)
+            }
         }
 
     }

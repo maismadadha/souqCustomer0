@@ -51,10 +51,6 @@ class categoriesFragment : Fragment() {
                 ArrayList(list),
                 object : OnClick{
                     override fun OnClick(index: Int) {
-                        //
-                    }
-
-                    override fun OnClick1(index: Int) {
                         val intent = Intent(requireContext(), CustomisedCategoryActivity::class.java)
                         startActivity(intent)
                     }

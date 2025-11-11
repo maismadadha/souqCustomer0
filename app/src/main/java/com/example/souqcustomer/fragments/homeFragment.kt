@@ -25,10 +25,59 @@ import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Categories2Item
 import com.example.souqcustomer.viewModel.UserViewModel
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.example.souqcustomer.activities.ProductActivity
 
 
 class homeFragment : Fragment() {
+
+    //autoSlider
+    private val autoScrollDelay = 3000L // كل 3 ثواني
+    private lateinit var snapHelper: PagerSnapHelper
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private val autoScrollHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val autoScrollRunnable: Runnable = object : Runnable {
+
+        override fun run() {
+            val rv = binding.rvSlider
+            val lm = rv.layoutManager as? LinearLayoutManager ?: return
+            val adapter = rv.adapter ?: return
+            val count = adapter.itemCount
+            if (count == 0) return
+
+            val snapView = snapHelper.findSnapView(lm) ?: return
+            val current = lm.getPosition(snapView)
+
+            if (current == count - 1) {
+                rv.scrollToPosition(0)
+                rv.post {
+                    autoScrollHandler.removeCallbacks(autoScrollRunnable)
+                    autoScrollHandler.postDelayed(autoScrollRunnable, autoScrollDelay)
+                }
+            } else {
+                rv.smoothScrollToPosition(current + 1)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        autoScrollHandler.postDelayed(autoScrollRunnable, autoScrollDelay) // شغّل مرة وحدة هون
+    }
+
+    override fun onPause() {
+        super.onPause()
+        autoScrollHandler.removeCallbacks(autoScrollRunnable)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        autoScrollHandler.removeCallbacks(autoScrollRunnable) // تنظيف إضافي مهم
+    }
+
+
+
+
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var categoriesAdapter: CategoriesAdadpter
@@ -58,6 +107,25 @@ class homeFragment : Fragment() {
         //sliderAds
         viewModel.getSliderAds()
         observeSliderAds()
+        binding.rvSlider.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        snapHelper = PagerSnapHelper()
+        binding.rvSlider.onFlingListener = null   // مهم لو كان مركّب قبل
+        snapHelper.attachToRecyclerView(binding.rvSlider)
+        binding.indicator.attachToRecyclerView(binding.rvSlider, snapHelper)
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    autoScrollHandler.removeCallbacks(autoScrollRunnable)
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    autoScrollHandler.postDelayed(autoScrollRunnable, autoScrollDelay)
+                }
+            }
+        }
+        binding.rvSlider.removeOnScrollListener(scrollListener) // احتياط
+        binding.rvSlider.addOnScrollListener(scrollListener)
+
+
 
         //Categories
         viewModel.getCategories2()
@@ -95,18 +163,18 @@ class homeFragment : Fragment() {
             sliderAdsAdapter = SliderAdapter(
                 ArrayList(list),
                 object : OnClick {
-                    override fun OnClick(index: Int) {
+                    override fun OnClick(sellerId: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
+                        intent.putExtra("sellerId", sellerId)
                         startActivity(intent)
-                    }//onClick
-                }//object
+                    }
+                }
             )
-            binding.rvSlider.adapter = sliderAdsAdapter
-            binding.rvSlider.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-            val snapHelper = PagerSnapHelper()
-            snapHelper.attachToRecyclerView(binding.rvSlider)
+            binding.rvSlider.adapter = sliderAdsAdapter
+            (binding.rvSlider.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
+
+            // 3) اربط الـ indicator الآن (بعد ما صار فيه adapter) وسجّل الـ observer
             binding.indicator.attachToRecyclerView(binding.rvSlider, snapHelper)
             sliderAdsAdapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
@@ -114,14 +182,17 @@ class homeFragment : Fragment() {
     }
 
 
+
+
     private fun observeCategories2() {
         viewModel.getLiveCategories2().observe(viewLifecycleOwner) { list ->
             categoriesAdapter = CategoriesAdadpter(
                 ArrayList(list),
                 object : OnClick {
-                    override fun OnClick(index: Int) {
+                    override fun OnClick(categoryId: Int) {
                         val intent =
                             Intent(requireContext(), CustomisedCategoryActivity::class.java)
+                        intent.putExtra("sellerId", categoryId)
                         startActivity(intent)
                     }
                 }//object

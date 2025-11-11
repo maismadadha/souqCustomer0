@@ -6,7 +6,9 @@ import com.example.souqcustomer.pojo.CreateCustomerRequest
 import com.example.souqcustomer.pojo.CreateCustomerResponse
 import com.example.souqcustomer.pojo.LoginRequest
 import com.example.souqcustomer.pojo.LoginResponse
+import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.Sellers
+import com.example.souqcustomer.pojo.SellersItem
 import com.example.souqcustomer.pojo.SliderAds
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +17,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface souqApi {
 
@@ -42,4 +45,13 @@ interface souqApi {
 
     @GET("products")
     fun getAllProducts(): Call<AllProducts>
+
+    @GET("seller-profiles/{id}")
+    fun getSellersById(@Path("id")id: Int): Call<SellersItem>
+
+    @GET("stores/{id}/categories")
+    fun getSellerCategories(@Path("id")id: Int): Call<SellerCategories>
+
+
+
 }

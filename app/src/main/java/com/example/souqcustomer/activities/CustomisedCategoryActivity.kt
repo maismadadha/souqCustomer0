@@ -22,6 +22,8 @@ class CustomisedCategoryActivity : AppCompatActivity() {
         binding = ActivityCustomisedCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val categoryId = intent.getIntExtra("categoryId", 0)
+
         binding.back.setOnClickListener {
             finish()
         }

@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="-70dp"
+                android:layout_marginTop="-40dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +120,7 @@
                             android:layout_weight="1" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
                             android:gravity="center_vertical|right"
@@ -133,16 +133,28 @@
                                 android:fontFamily="@font/cairo_bold"
                                 android:text="اسم المتجر"
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/store_category_card"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/cairo_regular"
+                                android:fontFamily="@font/cairo_semi_bold"
                                 android:text=" أزياء و ملابس"
-                                android:textColor="@color/gray_search_text"
-                                android:textSize="10sp" />
+                                android:textColor="@color/old_mauve"
+                                android:textSize="12sp" />
+                            <TextView
+                                android:id="@+id/store_description_card"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_medium"
+                                android:text="متجر يقدم أحدث صيحات الملابس للرجال والنساءمتجر يقدم أحدث صيحات الملابس للرجال والنساءمتجر يقدم أحدث صيحات الملابس للرجال والنساء"
+                                android:textColor="@color/gray_hint_text"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:singleLine="false"
+                                android:scrollHorizontally="false"
+                                android:textSize="8sp" />
 
 
                         </LinearLayout>
@@ -168,25 +180,25 @@
 
 
                         <TextView
-                            android:id="@+id/tv_delivery_time"
+                            android:id="@+id/delivery_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:fontFamily="@font/cairo_medium"
                             android:text="1.00 د.أ"
                             android:textColor="@color/black"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
 
                         <TextView
-                            android:id="@+id/delivery_price"
+                            android:id="@+id/tv_delivery_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:fontFamily="@font/cairo_medium"
                             android:text="50-55 دقيقة"
                             android:textColor="@color/black"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <View
                             android:layout_width="0dp"
@@ -205,7 +217,7 @@
                                 android:fontFamily="@font/cairo_bold"
                                 android:text="سوق"
                                 android:textColor="@color/old_mauve"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -214,7 +226,7 @@
                                 android:fontFamily="@font/cairo_medium"
                                 android:text="التوصيل بواسطة"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
 
                         </LinearLayout>
@@ -231,7 +243,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="25dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

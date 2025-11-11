@@ -15,11 +15,21 @@ import com.example.souqcustomer.interface0.OnClick
 
 class ProductsByCategoryFragment : Fragment() {
 
+    companion object {
+        private const val ARG_SELLER_ID = "sellerId"
+        private const val ARG_CATEGORY_ID = "categoryId"
+
+        fun newInstance(sellerId: Int, categoryId: Int) = ProductsByCategoryFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_SELLER_ID, sellerId)
+                putInt(ARG_CATEGORY_ID, categoryId)
+            }
+        }
+    }
 private lateinit var binding: FragmentProductsByCategoryBinding
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         // Inflate the layout for this fragment
         binding = FragmentProductsByCategoryBinding.inflate(inflater, container, false)
         return binding.root
@@ -28,6 +38,8 @@ private lateinit var binding: FragmentProductsByCategoryBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         val adapter = ProductsByCategoryAdapter(object : OnClick{
             override fun OnClick(index: Int) {

@@ -12,5 +12,8 @@ data class SellersItem(
     val updated_at: String,
     val user: User,
     val created_at: String,
+    val preparation_days: Int?,
+    val preparation_hours: Int?,
+    val delivery_price: Double?
 
 )

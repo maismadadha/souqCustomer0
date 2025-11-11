@@ -28,16 +28,21 @@ class SliderAdapter(
         position: Int
     ) {
         val item=sliderAds[position]
+        holder.binding.titleSlider.text=item.title?:""
+        holder.binding.descriptionSlider.text=item.description?:""
         Glide.with(holder.itemView.context)
             .load(item.image_url?: "")
             .placeholder(R.drawable.category)
             .into(holder.binding.imgSlider)
 
         holder.itemView.setOnClickListener {
-            listener.OnClick(item.id)
+            val sellerId = item.store_id
+            if (sellerId != null) {
+                listener.OnClick(sellerId)
+            }
         }
 
     }
 
-    override fun getItemCount(): Int =3
+    override fun getItemCount(): Int =sliderAds.size
 }
