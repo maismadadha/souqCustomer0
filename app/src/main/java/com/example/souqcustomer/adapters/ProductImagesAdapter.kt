@@ -3,9 +3,11 @@ package com.example.souqcustomer.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvProductImagesItemBinding
+import com.example.souqcustomer.pojo.ProductImages
 
-class ProductImagesAdapter(): RecyclerView.Adapter<ProductImagesAdapter.ViewHolder>() {
+class ProductImagesAdapter(val images: ProductImages): RecyclerView.Adapter<ProductImagesAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvProductImagesItemBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -20,7 +22,12 @@ class ProductImagesAdapter(): RecyclerView.Adapter<ProductImagesAdapter.ViewHold
         holder: ViewHolder,
         position: Int
     ) {
+        val item=images[position]
+        Glide.with(holder.itemView.context)
+            .load(item.image_url)
+            .into(holder.binding.productImg)
+
     }
 
-    override fun getItemCount(): Int =5
+    override fun getItemCount(): Int =images.size
 }

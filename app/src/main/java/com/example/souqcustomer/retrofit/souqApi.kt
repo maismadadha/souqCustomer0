@@ -6,24 +6,23 @@ import com.example.souqcustomer.pojo.CreateCustomerRequest
 import com.example.souqcustomer.pojo.CreateCustomerResponse
 import com.example.souqcustomer.pojo.LoginRequest
 import com.example.souqcustomer.pojo.LoginResponse
+import com.example.souqcustomer.pojo.ProductImages
+import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.Sellers
 import com.example.souqcustomer.pojo.SellersItem
 import com.example.souqcustomer.pojo.SliderAds
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface souqApi {
 
 
-    @GET ("categories")
-    fun getCategories2():Call<Categories2>
+    @GET("categories")
+    fun getCategories2(): Call<Categories2>
 
 
     @POST("users")
@@ -47,11 +46,16 @@ interface souqApi {
     fun getAllProducts(): Call<AllProducts>
 
     @GET("seller-profiles/{id}")
-    fun getSellersById(@Path("id")id: Int): Call<SellersItem>
+    fun getSellersById(@Path("id") id: Int): Call<SellersItem>
 
     @GET("stores/{id}/categories")
-    fun getSellerCategories(@Path("id")id: Int): Call<SellerCategories>
+    fun getSellerCategories(@Path("id") id: Int): Call<SellerCategories>
 
+    @GET("store-categories/{id}/products")
+    fun getCategoryProducts(@Path("id") id: Int): Call<Products>
+
+    @GET("products/{id}/images")
+    fun getProductImages(@Path("id")id: Int): Call<ProductImages>
 
 
 }

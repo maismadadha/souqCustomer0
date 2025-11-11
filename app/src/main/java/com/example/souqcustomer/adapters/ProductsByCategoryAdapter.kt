@@ -3,10 +3,13 @@ package com.example.souqcustomer.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvProductsByCategoryItemBinding
 import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.Products
+import com.example.souqcustomer.pojo.ProductsItem
 
-class ProductsByCategoryAdapter(val listener : OnClick): RecyclerView.Adapter<ProductsByCategoryAdapter.ViewHolder>() {
+class ProductsByCategoryAdapter(val products : ArrayList<ProductsItem>, val listener : OnClick): RecyclerView.Adapter<ProductsByCategoryAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvProductsByCategoryItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -21,10 +24,23 @@ class ProductsByCategoryAdapter(val listener : OnClick): RecyclerView.Adapter<Pr
         holder: ViewHolder,
         position: Int
     ) {
+        val item=products[position]
+        holder.binding.productName.text=item.name
+        val price=item.price
+        holder.binding.productPrice.text=" د.أ ${price}"
+        holder.binding.productDescription.text=item.description
+        Glide.with(holder.itemView.context)
+            .load(item.cover_image?:"")
+            .into(holder.binding.productImg)
+
+        holder.binding.btnAddToCart.setOnClickListener {
+            listener.OnClick(item.id)
+        }
+
         holder.itemView.setOnClickListener {
-            listener.OnClick(position)
+            listener.OnClick(item.id)
         }
     }
 
-    override fun getItemCount(): Int =10
+    override fun getItemCount(): Int =products.size
 }

@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.souqcustomer.pojo.ProductImages
+import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.SellersItem
 import com.example.souqcustomer.retrofit.RetrofitInterface
@@ -15,6 +17,8 @@ class SellerViewModel: ViewModel() {
 
     private val sellerById= MutableLiveData<SellersItem>()
     private val sellerCategories= MutableLiveData<SellerCategories>()
+    private val categoryProducts= MutableLiveData<Products>()
+    private val productImages= MutableLiveData<ProductImages>()
 
 
 
@@ -36,7 +40,6 @@ class SellerViewModel: ViewModel() {
             }
         })
     }
-
     fun getSellerCategories(id:Int){
         RetrofitInterface.api.getSellerCategories(id).enqueue(object : Callback<SellerCategories>{
             override fun onResponse(
@@ -55,11 +58,52 @@ class SellerViewModel: ViewModel() {
             }
         })
     }
+    fun getCategoryProducts(id: Int){
+        RetrofitInterface.api.getCategoryProducts(id).enqueue(object : Callback<Products>{
+            override fun onResponse(
+                call: Call<Products?>,
+                response: Response<Products?>
+            ) {
+                if(response.isSuccessful)
+                    categoryProducts.value=response.body()
+            }
+
+            override fun onFailure(
+                call: Call<Products?>,
+                t: Throwable
+            ) {
+                Log.e("CategoryProducts", t.message.toString())
+            }
+        })
+    }
+    fun getProductImages(id: Int){
+        RetrofitInterface.api.getProductImages(id).enqueue(object : Callback<ProductImages>{
+            override fun onResponse(
+                call: Call<ProductImages?>,
+                response: Response<ProductImages?>
+            ) {
+                if (response.isSuccessful)
+                    productImages.value=response.body()
+            }
+
+            override fun onFailure(
+                call: Call<ProductImages?>,
+                t: Throwable
+            ) {
+                Log.e("ProductImages", t.message.toString())
+            }
+        })
+    }
     fun getLiveSellerById(): LiveData<SellersItem>{
         return sellerById
     }
-
     fun getLiveSellerCategories(): LiveData<SellerCategories>{
         return sellerCategories
+    }
+    fun getLiveCategoryProducts(): LiveData<Products>{
+        return categoryProducts
+    }
+    fun getLivePriductImages(): LiveData<ProductImages>{
+        return productImages
     }
 }
