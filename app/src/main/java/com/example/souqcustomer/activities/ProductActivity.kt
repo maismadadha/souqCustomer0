@@ -20,7 +20,6 @@ class ProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_product)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -29,6 +28,9 @@ class ProductActivity : AppCompatActivity() {
 
         viewModel.getProductImages(productId)
         observeProductImagesLiveData()
+
+        viewModel.getProductById(productId)
+        observeProductByIdLiveData()
 
         binding.back.setOnClickListener {
             finish()
@@ -39,6 +41,17 @@ class ProductActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun observeProductByIdLiveData() {
+        viewModel.getLiveProductById().observe(this) { product ->
+            if (product == null) return@observe
+
+            binding.productName.text        = product.name ?: ""
+            binding.productDescription.text = product.description ?: ""
+            binding.productPrice.text       = product.price?:""
+        }
+    }
+
 
     private fun observeProductImagesLiveData() {
         viewModel.getLivePriductImages().observe(this){images->

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
 import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
@@ -19,6 +20,7 @@ class SellerViewModel: ViewModel() {
     private val sellerCategories= MutableLiveData<SellerCategories>()
     private val categoryProducts= MutableLiveData<Products>()
     private val productImages= MutableLiveData<ProductImages>()
+    private val productById= MutableLiveData<Product>()
 
 
 
@@ -79,21 +81,41 @@ class SellerViewModel: ViewModel() {
     fun getProductImages(id: Int){
         RetrofitInterface.api.getProductImages(id).enqueue(object : Callback<ProductImages>{
             override fun onResponse(
-                call: Call<ProductImages?>,
-                response: Response<ProductImages?>
+                call: Call<ProductImages>,
+                response: Response<ProductImages>
             ) {
                 if (response.isSuccessful)
                     productImages.value=response.body()
             }
 
             override fun onFailure(
-                call: Call<ProductImages?>,
+                call: Call<ProductImages>,
                 t: Throwable
             ) {
                 Log.e("ProductImages", t.message.toString())
             }
         })
     }
+    fun getProductById(id: Int){
+        RetrofitInterface.api.getProductById(id).enqueue(object : Callback<Product>{
+            override fun onResponse(
+                call: Call<Product>,
+                response: Response<Product>
+            ) {
+                if(response.isSuccessful)
+                    productById.value=response.body()
+            }
+
+            override fun onFailure(
+                call: Call<Product>,
+                t: Throwable
+            ) {
+                Log.e("ProductById", t.message.toString())
+            }
+        })
+    }
+
+
     fun getLiveSellerById(): LiveData<SellersItem>{
         return sellerById
     }
@@ -105,5 +127,8 @@ class SellerViewModel: ViewModel() {
     }
     fun getLivePriductImages(): LiveData<ProductImages>{
         return productImages
+    }
+    fun getLiveProductById(): LiveData<Product>{
+        return productById
     }
 }

@@ -6,6 +6,7 @@ import com.example.souqcustomer.pojo.CreateCustomerRequest
 import com.example.souqcustomer.pojo.CreateCustomerResponse
 import com.example.souqcustomer.pojo.LoginRequest
 import com.example.souqcustomer.pojo.LoginResponse
+import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
 import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
@@ -56,6 +57,9 @@ interface souqApi {
 
     @GET("products/{id}/images")
     fun getProductImages(@Path("id")id: Int): Call<ProductImages>
+
+    @GET("products/{id}")
+    fun getProductById(@Path("id")id: Int): Call<Product>
 
 
 }
