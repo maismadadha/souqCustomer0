@@ -18,6 +18,7 @@ class otpActivity : AppCompatActivity() {
         binding = ActivityOtpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userId = intent.getIntExtra("userId", 0)
 
 
         binding.sendOtpButton.setOnClickListener {
@@ -33,6 +34,7 @@ class otpActivity : AppCompatActivity() {
             else if (otp=="1234"){
                 showCustomToast("تم تسجيل الدخول بنجاح")
                 var intent = Intent(this, HomeActivity::class.java)
+                intent.putExtra("userId", userId)
                 startActivity(intent)
                 finish()
             }

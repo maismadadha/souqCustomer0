@@ -27,7 +27,7 @@ class ProductsByCategoryAdapter(val products : ArrayList<ProductsItem>, val list
         val item=products[position]
         holder.binding.productName.text=item.name
         val price=item.price
-        holder.binding.productPrice.text=" د.أ ${price}"
+        holder.binding.productPrice.text="${price} د.أ "
         holder.binding.productDescription.text=item.description
         Glide.with(holder.itemView.context)
             .load(item.cover_image?:"")

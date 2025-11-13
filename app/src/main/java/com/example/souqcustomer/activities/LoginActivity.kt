@@ -60,8 +60,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeLoginLiveData() {
         viewModel.observeLoginLiveData().observe(this){response ->
+            val userId = response?.user?.user_id ?: 0
+            if (userId == 0) {
+                // ما وصل userId من الـAPI
+                // showCustomToast("صار خطأ: ما وصل userId")
+                return@observe
+            }
             showCustomToast("يرجى ادخال رمز التحقق لتسحيل الدخول")
             var intent = Intent(this, otpActivity::class.java)
+            intent.putExtra("userId", userId)
             startActivity(intent)
             finish()
         }

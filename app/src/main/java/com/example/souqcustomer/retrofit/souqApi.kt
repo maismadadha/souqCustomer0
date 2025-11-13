@@ -8,6 +8,7 @@ import com.example.souqcustomer.pojo.LoginRequest
 import com.example.souqcustomer.pojo.LoginResponse
 import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
+import com.example.souqcustomer.pojo.ProductOptions
 import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.Sellers
@@ -18,6 +19,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface souqApi {
 
@@ -60,6 +62,21 @@ interface souqApi {
 
     @GET("products/{id}")
     fun getProductById(@Path("id")id: Int): Call<Product>
+
+    @GET("products/{id}/options")
+    fun getProductOptions(@Path("id")id: Int): Call<ProductOptions>
+
+    @GET("seller-profiles")
+    fun getSellerByCategoryId(
+        @Query("main_category_id") id: Int
+    ): Call<Sellers>
+
+    @GET("users/{id}/favorites")
+    fun getFavoritesSellersByUserId(@Path("id") id: Int): Call<Sellers>
+
+
+
+
 
 
 }

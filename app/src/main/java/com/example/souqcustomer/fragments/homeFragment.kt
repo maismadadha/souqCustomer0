@@ -190,9 +190,9 @@ class homeFragment : Fragment() {
                 ArrayList(list),
                 object : OnClick {
                     override fun OnClick(categoryId: Int) {
-                        val intent =
-                            Intent(requireContext(), CustomisedCategoryActivity::class.java)
-                        intent.putExtra("sellerId", categoryId)
+                        val intent = Intent(requireContext(), CustomisedCategoryActivity::class.java)
+                        intent.putExtra("categoryId", categoryId)
+                        intent.putExtra("categoryName", list[categoryId-1].name)
                         startActivity(intent)
                     }
                 }//object
@@ -212,6 +212,7 @@ class homeFragment : Fragment() {
                 object : OnClick {
                     override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
+                        intent.putExtra("sellerId", list[index].user_id)
                         startActivity(intent)
                     }
                 }//ob1ject
@@ -231,6 +232,7 @@ class homeFragment : Fragment() {
                 object : OnClick {
                     override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), ProductActivity::class.java)
+                        intent.putExtra("productId", list[index].id)
                         startActivity(intent)
                     }
                 }//object

@@ -67,8 +67,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeSignUpLiveData() {
         viewModel.observeSignUpLiveData().observe(this) { response ->
+            val userId = response?.user?.user_id ?: 0
+            if (userId == 0) {
+                // ما وصل userId من الـAPI
+                // showCustomToast("صار خطأ: ما وصل userId")
+                return@observe
+            }
+
             showCustomToast("يرجى ادخال رمز التحقق لإنشاء الحساب")
             val intent = Intent(this, otpActivity::class.java)
+            intent.putExtra("userId", userId)
             startActivity(intent)
             finish()
         }

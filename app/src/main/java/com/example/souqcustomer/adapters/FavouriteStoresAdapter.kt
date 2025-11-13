@@ -3,11 +3,13 @@ package com.example.souqcustomer.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvFavouiteStoreItemBinding
 import com.example.souqcustomer.R
 import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.Sellers
 
-class FavouriteStoresAdapter(val listener : OnClick): RecyclerView.Adapter<FavouriteStoresAdapter.ViewHolder>() {
+class FavouriteStoresAdapter(var seller: Sellers,val listener : OnClick): RecyclerView.Adapter<FavouriteStoresAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvFavouiteStoreItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -22,9 +24,14 @@ class FavouriteStoresAdapter(val listener : OnClick): RecyclerView.Adapter<Favou
         holder: ViewHolder,
         position: Int
     ) {
-        holder.binding.storeName.text="لونا باجز"
-        holder.binding.storeLogo.setImageResource(R.drawable.img_store)
-        holder.binding.storeCategory.text="صحة و جمال"
+        val item = seller[position]
+        holder.binding.storeName.text=item.name
+        holder.binding.storeCategory.text=item.main_category.name
+        Glide.with(holder.itemView.context)
+            .load(item.store_logo_url)
+            .into(holder.binding.storeLogo)
+
+
         holder.binding.btnFavourite.isSelected=true
         holder.binding.btnFavourite.setOnClickListener {
             holder.binding.btnFavourite.isSelected=!holder.binding.btnFavourite.isSelected
@@ -36,5 +43,5 @@ class FavouriteStoresAdapter(val listener : OnClick): RecyclerView.Adapter<Favou
 
     }
 
-    override fun getItemCount(): Int =15
+    override fun getItemCount(): Int =seller.size
 }

@@ -25,6 +25,7 @@ class categoriesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -50,8 +51,10 @@ class categoriesFragment : Fragment() {
             categoriesAdapter= AllCategoriesAdapter(
                 ArrayList(list),
                 object : OnClick{
-                    override fun OnClick(index: Int) {
+                    override fun OnClick(categoryId: Int) {
                         val intent = Intent(requireContext(), CustomisedCategoryActivity::class.java)
+                        intent.putExtra("categoryId", categoryId)
+                        intent.putExtra("categoryName", list[categoryId-1].name)
                         startActivity(intent)
                     }
                 }
