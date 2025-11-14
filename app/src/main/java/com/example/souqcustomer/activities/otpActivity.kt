@@ -21,6 +21,12 @@ class otpActivity : AppCompatActivity() {
         val userId = intent.getIntExtra("userId", 0)
 
 
+        val prefs = getSharedPreferences("souq_prefs", MODE_PRIVATE)
+        prefs.edit()
+            .putInt("USER_ID", userId)
+            .apply()
+
+
         binding.sendOtpButton.setOnClickListener {
             var otp1 = binding.otp1.text.toString()
             var otp2 = binding.otp2.text.toString()

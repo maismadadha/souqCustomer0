@@ -54,16 +54,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeErrorLoginLiveData() {
         viewModel.observeErrorLoginLiveData().observe(this) { errorMsg ->
-            showCustomToast("المستخدم غير موجود")
+            showCustomToast(errorMsg)
         }
     }
 
     private fun observeLoginLiveData() {
         viewModel.observeLoginLiveData().observe(this){response ->
-            val userId = response?.user?.user_id ?: 0
+            val userId = response.user.id
+
             if (userId == 0) {
-                // ما وصل userId من الـAPI
-                // showCustomToast("صار خطأ: ما وصل userId")
+                showCustomToast("صار خطأ: ما وصل userId من السيرفر")
                 return@observe
             }
             showCustomToast("يرجى ادخال رمز التحقق لتسحيل الدخول")

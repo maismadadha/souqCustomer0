@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,17 +60,14 @@ class homeFragment : Fragment() {
             }
         }
     }
-
     override fun onResume() {
         super.onResume()
         autoScrollHandler.postDelayed(autoScrollRunnable, autoScrollDelay) // شغّل مرة وحدة هون
     }
-
     override fun onPause() {
         super.onPause()
         autoScrollHandler.removeCallbacks(autoScrollRunnable)
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         autoScrollHandler.removeCallbacks(autoScrollRunnable) // تنظيف إضافي مهم
@@ -85,16 +83,15 @@ class homeFragment : Fragment() {
     private lateinit var sellersAdapter: SuggestedStoresAdapter
     private lateinit var newProductsAdapter: NewProductsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -103,6 +100,9 @@ class homeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val prefs = requireContext().getSharedPreferences("souq_prefs", AppCompatActivity.MODE_PRIVATE)
+        val userId = prefs.getInt("USER_ID", 0)
 
         //sliderAds
         viewModel.getSliderAds()
@@ -126,7 +126,6 @@ class homeFragment : Fragment() {
         binding.rvSlider.addOnScrollListener(scrollListener)
 
 
-
         //Categories
         viewModel.getCategories2()
         observeCategories2()
@@ -138,8 +137,6 @@ class homeFragment : Fragment() {
         //new products
         viewModel.getAllProducts()
         observeNewProducts()
-
-
 
 
         //cart on click
@@ -180,10 +177,6 @@ class homeFragment : Fragment() {
 
         }
     }
-
-
-
-
     private fun observeCategories2() {
         viewModel.getLiveCategories2().observe(viewLifecycleOwner) { list ->
             categoriesAdapter = CategoriesAdadpter(
@@ -204,7 +197,6 @@ class homeFragment : Fragment() {
             }
         }
     }
-
     private fun observeSellers() {
         viewModel.getLiveSellers().observe(viewLifecycleOwner) { list ->
             sellersAdapter = SuggestedStoresAdapter(
@@ -224,7 +216,6 @@ class homeFragment : Fragment() {
         }
 
     }
-
     private fun observeNewProducts() {
         viewModel.getLiveAllProducts().observe(viewLifecycleOwner) { list ->
             newProductsAdapter = NewProductsAdapter(

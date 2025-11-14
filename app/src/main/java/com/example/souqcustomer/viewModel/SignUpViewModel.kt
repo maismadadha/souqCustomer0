@@ -20,7 +20,7 @@ class SignUpViewModel : ViewModel() {
     private val errorLoginLiveData = MutableLiveData<String>()
 
 
-    fun logIN(phone: String, )
+    fun logIN(phone: String )
     {
         val body = LoginRequest(
             phone= phone,
@@ -34,9 +34,13 @@ class SignUpViewModel : ViewModel() {
                     loginLiveData.value = response.body()
                     Log.d("LoginVM", "Success: ${response.body()}")
                 } else {
-                    val msg = response.errorBody()?.string() ?: "فشل تسجيل الدخول"
+                    val msg = when (response.code()) {
+                        401 -> "رقم غير صحيح أو غير مسجل"
+                        422 -> "البيانات المدخلة غير صحيحة"
+                        else -> "فشل تسجيل الدخول"
+                    }
                     errorLoginLiveData.value = msg
-                    Log.e("LoginVM", "API Error: $msg")
+
                 }
             }
 
@@ -73,9 +77,16 @@ class SignUpViewModel : ViewModel() {
                     if (response.isSuccessful && response.body() != null) {
                         signupLiveData.value = response.body()
                         Log.d("SignUpVM", "Success: ${response.body()}")
+                        Log.d("SignUpVmM", "RAW RESPONSE: ${signupLiveData.value.toString()}")
                     } else {
-                        val msg = response.errorBody()?.string() ?: "فشل إنشاء الحساب"
-                        errorLiveData.value = msg
+
+                            val msg = when (response.code()) {
+                                409 -> "الرقم مستخدم بالفعل"
+                                422 -> "البيانات المدخلة غير صحيحة"
+                                500 -> "مشكلة في الخادم، جرّب بعد شوي"
+                                else -> "صار خطأ غير متوقع"
+                            }
+                            errorLiveData.value = msg
                     }
                 }
 

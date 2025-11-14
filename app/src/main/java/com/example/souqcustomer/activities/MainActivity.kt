@@ -61,16 +61,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeErrorLiveData() {
         viewModel.observeErrorLiveData().observe(this) { errorMsg ->
-            showCustomToast("الرقم مستخدم بالفعل")
+            showCustomToast(errorMsg)
         }
     }
 
     private fun observeSignUpLiveData() {
         viewModel.observeSignUpLiveData().observe(this) { response ->
-            val userId = response?.user?.user_id ?: 0
+            val userId = response.user.id
+
             if (userId == 0) {
-                // ما وصل userId من الـAPI
-                // showCustomToast("صار خطأ: ما وصل userId")
+                showCustomToast("صار خطأ: ما وصل userId من السيرفر")
                 return@observe
             }
 
