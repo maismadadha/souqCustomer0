@@ -36,6 +36,19 @@
             android:background="@color/gray" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvEmptyFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="لا يوجد متاجر مفضلة"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/cairo_bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favourite_stores"

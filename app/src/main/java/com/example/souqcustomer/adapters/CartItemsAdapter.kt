@@ -1,12 +1,19 @@
 package com.example.souqcustomer.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvCartItemsBinding
+import com.example.souqcustomer.interface0.CartItemListener
 import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.OrderItemDto
 
-class CartItemsAdapter(val listener: OnClick) :
+class CartItemsAdapter(
+    private var items: List<OrderItemDto>,
+    private val listener: CartItemListener
+) :
     RecyclerView.Adapter<CartItemsAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvCartItemsBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -22,23 +29,55 @@ class CartItemsAdapter(val listener: OnClick) :
         holder: ViewHolder,
         position: Int
     ) {
-        holder.binding.plusButton.setOnClickListener {
-            holder.binding.quantity.text =
-                (holder.binding.quantity.text.toString().toInt() + 1).toString()
-        }
+        val item = items[position]
+
+
+        holder.binding.itemName.text = item.product?.name ?: ""
+        holder.binding.itemDescription.text = item.product?.description ?: ""
+        holder.binding.itemPrice.text = item.price.toString()
+        holder.binding.quantity.text = item.quantity.toString()
+
+        Glide.with(holder.itemView.context)
+            .load(item.product?.main_image_url)
+            .into(holder.binding.itemImage)
+        Log.d("CartAdapter", "img = ${item.product?.main_image_url}")
+
+
+
 
         holder.binding.minusButton.setOnClickListener {
-            holder.binding.quantity.text =
-                (holder.binding.quantity.text.toString().toInt() - 1).toString()
+            val current = holder.binding.quantity.text.toString().toInt()
+            if (current > 1) {
+                holder.binding.quantity.text = (current - 1).toString()
+            }
         }
 
 
         holder.itemView.setOnClickListener {
-            listener.OnClick(position)
+            listener.onItemClick(item.product_id)
+        }
+
+        holder.binding.plusButton.setOnClickListener {
+            val newQty = item.quantity + 1
+            listener.onIncreaseQuantity(item.copy(quantity = newQty))
+        }
+
+        holder.binding.minusButton.setOnClickListener {
+            if (item.quantity > 1) {
+                val newQty = item.quantity - 1
+                listener.onDecreaseQuantity(item.copy(quantity = newQty))
+            }
         }
 
 
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = items.size
+
+    fun submitList(newItems: List<OrderItemDto>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
+    fun getItemAt(position: Int): OrderItemDto = items[position]
+
 }

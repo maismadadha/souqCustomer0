@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.souqcustomer.pojo.FavoriteStores
 import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
 import com.example.souqcustomer.pojo.ProductOptions
@@ -25,7 +26,7 @@ class SellerViewModel : ViewModel() {
     private val productById = MutableLiveData<Product>()
     private val productOptions = MutableLiveData<ProductOptions>()
     private val sellersByMainCategory = MutableLiveData<Sellers>()
-    private val favoritesSellers = MutableLiveData<Sellers>()
+    private val favoritesSellers = MutableLiveData<FavoriteStores>()
 
 
     fun getSellerById(id: Int) {
@@ -164,17 +165,17 @@ class SellerViewModel : ViewModel() {
 
     fun getFavoritesSellersByUserId(userId: Int) {
         RetrofitInterface.api.getFavoritesSellersByUserId(userId)
-            .enqueue(object : Callback<Sellers> {
+            .enqueue(object : Callback<FavoriteStores> {
                 override fun onResponse(
-                    call: Call<Sellers?>,
-                    response: Response<Sellers?>
+                    call: Call<FavoriteStores?>,
+                    response: Response<FavoriteStores?>
                 ) {
                     if (response.isSuccessful)
                         favoritesSellers.value = response.body()
                 }
 
                 override fun onFailure(
-                    call: Call<Sellers?>,
+                    call: Call<FavoriteStores?>,
                     t: Throwable
                 ) {
                     Log.d("FavoritesSellers", t.message.toString())
@@ -212,7 +213,7 @@ class SellerViewModel : ViewModel() {
         return sellersByMainCategory
     }
 
-    fun getLiveFavoritesSellers(): LiveData<Sellers> {
+    fun getLiveFavoritesSellers(): LiveData<FavoriteStores> {
         return favoritesSellers
     }
 
