@@ -2,6 +2,7 @@ package com.example.souqcustomer.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -36,6 +37,19 @@ class CartItemsAdapter(
         holder.binding.itemDescription.text = item.product?.description ?: ""
         holder.binding.itemPrice.text = item.price.toString()
         holder.binding.quantity.text = item.quantity.toString()
+
+        val customizationText = item.customizations
+            ?.entries
+            ?.joinToString(" • ") { (key, value) -> "$key: $value" }
+            ?: ""
+
+        if (customizationText.isEmpty()) {
+            holder.binding.itemCustomizations.visibility = View.GONE
+        } else {
+            holder.binding.itemCustomizations.visibility = View.VISIBLE
+            holder.binding.itemCustomizations.text = customizationText
+        }
+
 
         Glide.with(holder.itemView.context)
             .load(item.product?.main_image_url)

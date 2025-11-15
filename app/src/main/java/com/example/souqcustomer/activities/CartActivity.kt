@@ -30,6 +30,8 @@ class CartActivity : AppCompatActivity() {
 
     private var currentOrderId: Int? = null
     private var userId: Int = 0
+    private var deliveryPrice: Double = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +43,8 @@ class CartActivity : AppCompatActivity() {
         userId = prefs.getInt("USER_ID", 0)
 
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        adapter = CartItemsAdapter(
-            emptyList(),
-            object : CartItemListener {
+
+        adapter = CartItemsAdapter(emptyList(), object : CartItemListener {
                 override fun onItemClick(productId: Int) {
                     val intent = Intent(this@CartActivity, ProductActivity::class.java)
                     intent.putExtra("productId", productId)
@@ -68,80 +69,89 @@ class CartActivity : AppCompatActivity() {
 
         binding.rvCart.adapter = adapter
         val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean = false
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean = false
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val item = adapter.getItemAt(position)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val item = adapter.getItemAt(position)
 
-                showDeleteDialog(item)
-            }
-
-            override fun onChildDraw(
-                c: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-                val itemView = viewHolder.itemView
-                val paint = Paint()
-
-                // نحول dp → px
-                val density = recyclerView.context.resources.displayMetrics.density
-                val boxWidth = 70 * density        // عرض الصندوق الأحمر (30dp)
-                val maxSwipe = 80 * density        // أقصى مسافة يتحرك فيها الآيتِم (80dp)
-
-                if (dX > 0) { // سحب لليمين
-                    paint.color = Color.parseColor("#D32F2F")
-
-                    // نخلي الصندوق ثابت على اليسار وبعرض 30dp
-                    val left = itemView.left.toFloat()
-                    val right = left + boxWidth
-                    val top = itemView.top.toFloat()
-                    val bottom = itemView.bottom.toFloat()
-
-                    c.drawRect(left, top, right, bottom, paint)
-
-                    // أيقونة الحذف جوا الصندوق
-                    val icon = ContextCompat.getDrawable(this@CartActivity, R.drawable.delete) ?: return
-                    val iconWidth = icon.intrinsicWidth
-                    val iconHeight = icon.intrinsicHeight
-
-                    val iconLeft = (left + (boxWidth - iconWidth) / 2).toInt()
-                    val iconTop = (top + (itemView.height - iconHeight) / 2).toInt()
-                    val iconRight = iconLeft + iconWidth
-                    val iconBottom = iconTop + iconHeight
-
-                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
-                    icon.draw(c)
+                    showDeleteDialog(item)
                 }
 
-                // نخلي حركة الآيتِم نفسها محدودة بـ maxSwipe
-                val clampedDX = dX.coerceIn(0f, maxSwipe)
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    val itemView = viewHolder.itemView
+                    val paint = Paint()
 
-                super.onChildDraw(c, recyclerView, viewHolder, clampedDX, dY, actionState, isCurrentlyActive)
+                    // نحول dp → px
+                    val density = recyclerView.context.resources.displayMetrics.density
+                    val boxWidth = 70 * density        // عرض الصندوق الأحمر (30dp)
+                    val maxSwipe = 80 * density        // أقصى مسافة يتحرك فيها الآيتِم (80dp)
+
+                    if (dX > 0) { // سحب لليمين
+                        paint.color = Color.parseColor("#D32F2F")
+
+                        // نخلي الصندوق ثابت على اليسار وبعرض 30dp
+                        val left = itemView.left.toFloat()
+                        val right = left + boxWidth
+                        val top = itemView.top.toFloat()
+                        val bottom = itemView.bottom.toFloat()
+
+                        c.drawRect(left, top, right, bottom, paint)
+
+                        // أيقونة الحذف جوا الصندوق
+                        val icon = ContextCompat.getDrawable(this@CartActivity, R.drawable.delete)
+                            ?: return
+                        val iconWidth = icon.intrinsicWidth
+                        val iconHeight = icon.intrinsicHeight
+
+                        val iconLeft = (left + (boxWidth - iconWidth) / 2).toInt()
+                        val iconTop = (top + (itemView.height - iconHeight) / 2).toInt()
+                        val iconRight = iconLeft + iconWidth
+                        val iconBottom = iconTop + iconHeight
+
+                        icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                        icon.draw(c)
+                    }
+
+                    // نخلي حركة الآيتِم نفسها محدودة بـ maxSwipe
+                    val clampedDX = dX.coerceIn(0f, maxSwipe)
+
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        clampedDX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+
+
             }
-
-
-
-        }
         ItemTouchHelper(swipeToDeleteCallback).attachToRecyclerView(binding.rvCart)
         binding.rvCart.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+
         orderViewModel.loadCustomerCart(userId)
         observeCartData()
 
+        //delete cart
         binding.deleteCartImage.setOnClickListener {
             if (currentOrderId == null) return@setOnClickListener
-
             AlertDialog.Builder(this)
                 .setTitle("حذف السلة")
                 .setMessage("هل أنت متأكد أنك تريد حذف السلة كاملة؟")
@@ -152,15 +162,20 @@ class CartActivity : AppCompatActivity() {
                 .show()
         }
 
+        //go to checkout
         binding.toPayButton.setOnClickListener {
+            val orderId = currentOrderId ?: return@setOnClickListener
+
+            val noteText = binding.note.text.toString()
+            orderViewModel.updateOrderNote(orderId, noteText)
             val intent = Intent(this, CheckoutActivity::class.java)
-            intent.putExtra("orderId", currentOrderId)
+            intent.putExtra("orderId", orderId)
             intent.putExtra("totalPrice", binding.totalPrice.text.toString().toDouble())
-            intent.putExtra("note", binding.note.text.toString())
+            intent.putExtra("note", noteText)
             startActivity(intent)
-            finish()
         }
 
+        //back
         binding.back.setOnClickListener {
             finish()
         }
@@ -169,16 +184,11 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun observeCartData() {
-
-        // 1) الطلب نفسه: بس للأرقام (المجموع، id، اسم المتجر لاحقاً)
         orderViewModel.observeCartOrder().observe(this) { order ->
             if (order != null) {
                 currentOrderId = order.id
                 binding.totalPrice.text = "${order.total_price}"
-                // هون لاحقاً منجيب اسم المتجر من API بدل store_id
-                binding.storeName.text = order.store_name?:""
-                val note=binding.note.text
-
+                binding.storeName.text = order.store_name ?: ""
 
             } else {
                 currentOrderId = null
@@ -187,17 +197,13 @@ class CartActivity : AppCompatActivity() {
             }
         }
 
-        // 2) العناصر جوة السلة: هون نقرّر إذا السلة فاضية ولا لا
         orderViewModel.observeCartItems().observe(this) { items ->
             adapter.submitList(items)
-
             if (items.isEmpty()) {
-                // سلة فاضية 👇
                 binding.tvEmptyCart.visibility = View.VISIBLE
-                binding.scrollContent.visibility = View.GONE   // نخفي اللستة و الملاحظة
-                binding.linearLayout.visibility = View.GONE    // نخفي الإجمالي + زر الدفع
+                binding.scrollContent.visibility = View.GONE
+                binding.linearLayout.visibility = View.GONE
             } else {
-                // في عناصر 👇
                 binding.tvEmptyCart.visibility = View.GONE
                 binding.scrollContent.visibility = View.VISIBLE
                 binding.linearLayout.visibility = View.VISIBLE

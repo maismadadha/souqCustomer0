@@ -2,6 +2,7 @@ package com.example.souqcustomer.retrofit
 
 import com.example.souqcustomer.pojo.AddToCartRequest
 import com.example.souqcustomer.pojo.AddToCartResponse
+import com.example.souqcustomer.pojo.AddressDto
 import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.CreateCustomerRequest
@@ -17,13 +18,20 @@ import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.Sellers
 import com.example.souqcustomer.pojo.SellersItem
+import com.example.souqcustomer.pojo.SetOrderAddressRequest
+import com.example.souqcustomer.pojo.SetOrderAddressResponse
 import com.example.souqcustomer.pojo.SimpleMessageResponse
+import com.example.souqcustomer.pojo.SimpleResponse
 import com.example.souqcustomer.pojo.SliderAds
 import com.example.souqcustomer.pojo.UpdateCartItemRequest
+import com.example.souqcustomer.pojo.UpdateOrderMetaRequest
+import com.example.souqcustomer.pojo.UpdateOrderNoteRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -103,6 +111,40 @@ interface souqApi {
 
     @DELETE("order-items/{itemId}")
     fun deleteCartItem(@Path("itemId") itemId: Int): Call<SimpleMessageResponse>
+
+    @PUT("orders/{orderId}/note")
+    fun updateOrderNote(
+        @Path("orderId") orderId: Int,
+        @Body body: UpdateOrderNoteRequest
+    ): Call<AddToCartResponse>
+
+    @PUT("orders/{orderId}/confirm")
+    fun confirmOrder(
+        @Path("orderId") orderId: Int
+    ): Call<AddToCartResponse>
+
+    @GET("addresses")
+    fun getUserAddresses(
+        @Query("user_id") userId: Int
+    ): Call<List<AddressDto>>
+
+    @FormUrlEncoded
+    @PUT("orders/{orderId}/address")
+    fun setOrderAddress(
+        @Path("orderId") orderId: Int,
+        @Field("address_id") addressId: Int
+    ): Call<SetOrderAddressResponse>
+
+
+    @PUT("orders/{orderId}/meta")
+    fun updateOrderMeta(
+        @Path("orderId") orderId: Int,
+        @Body body: UpdateOrderMetaRequest
+    ): Call<AddToCartResponse>
+
+
+
+
 
 
 

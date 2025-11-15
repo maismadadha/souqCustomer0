@@ -25,7 +25,8 @@ data class OrderItemDto(
     val quantity: Int,
     val price: Double,
     val discount: Double,
-    val product: ProductInCartDto? // عشان الاسم والصورة
+    val product: ProductInCartDto?, // عشان الاسم والصورة
+    val customizations: Map<String, String>?
 )
 
 data class ProductInCartDto(

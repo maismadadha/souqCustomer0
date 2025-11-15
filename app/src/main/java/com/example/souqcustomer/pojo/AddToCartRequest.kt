@@ -5,5 +5,6 @@ data class AddToCartRequest(
     val store_id: Int,
     val product_id: Int,
     val quantity: Int,
-    val price: Double
+    val price: Double,
+    val customizations: Map<String, String>? = null
 )
