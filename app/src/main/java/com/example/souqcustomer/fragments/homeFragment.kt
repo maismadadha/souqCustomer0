@@ -28,6 +28,7 @@ import com.example.souqcustomer.viewModel.UserViewModel
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.souqcustomer.activities.ProductActivity
+import com.example.souqcustomer.viewModel.SellerViewModel
 
 
 class homeFragment : Fragment() {
@@ -82,11 +83,17 @@ class homeFragment : Fragment() {
     private lateinit var sliderAdsAdapter: SliderAdapter
     private lateinit var sellersAdapter: SuggestedStoresAdapter
     private lateinit var newProductsAdapter: NewProductsAdapter
+    private lateinit var sellerViewModel: SellerViewModel
+
+    private var userId: Int = 0
+    private var favoriteStoreIds: Set<Int> = emptySet()
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        sellerViewModel = ViewModelProvider(this)[SellerViewModel::class.java]
     }
 
 
@@ -102,7 +109,7 @@ class homeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = requireContext().getSharedPreferences("souq_prefs", AppCompatActivity.MODE_PRIVATE)
-        val userId = prefs.getInt("USER_ID", 0)
+         userId = prefs.getInt("USER_ID", 0)
 
         //sliderAds
         viewModel.getSliderAds()
@@ -130,6 +137,11 @@ class homeFragment : Fragment() {
         viewModel.getCategories2()
         observeCategories2()
 
+        // جيب قائمة المفضلات من السيرفر
+        sellerViewModel.getFavoritesSellersByUserId(userId)
+        observeFavorites()
+
+
         //sellers
         viewModel.getSellers()
         observeSellers()
@@ -153,6 +165,24 @@ class homeFragment : Fragment() {
 
 
     }//onViewCreated
+
+    
+
+    private fun observeFavorites() {
+        sellerViewModel.getLiveFavoritesSellers().observe(viewLifecycleOwner) { favorites ->
+            // نفترض أن FavoriteStores = List<FavoriteStoreItem> وفيها store_id
+            favoriteStoreIds = favorites.map { it.store_id }.toSet()
+
+            // لو الآدابتر جاهز، حدّث حالة isFavorite في البياعين
+            if (::sellersAdapter.isInitialized) {
+                sellersAdapter.sellers.forEach { seller ->
+                    seller.isFavorite = favoriteStoreIds.contains(seller.user_id)
+                }
+                sellersAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
 
 
     private fun observeSliderAds() {
@@ -199,23 +229,40 @@ class homeFragment : Fragment() {
     }
     private fun observeSellers() {
         viewModel.getLiveSellers().observe(viewLifecycleOwner) { list ->
+            // حولناها ArrayList عشان نقدر نعدل isFavorite
+            val sellersList = ArrayList(list)
+
+            // حدث حالة isFavorite لكل seller حسب favoriteStoreIds اللي جاي من الـ API
+            sellersList.forEach { seller ->
+                seller.isFavorite = favoriteStoreIds.contains(seller.user_id)
+            }
+
             sellersAdapter = SuggestedStoresAdapter(
-                ArrayList(list),
+                sellersList,
                 object : OnClick {
                     override fun OnClick(index: Int) {
                         val intent = Intent(requireContext(), StoreActivity::class.java)
-                        intent.putExtra("sellerId", list[index].user_id)
+                        intent.putExtra("sellerId", sellersList[index].user_id)
                         startActivity(intent)
                     }
-                }//ob1ject
+                },
+                onFavoriteClick = { seller, position ->
+                    if (seller.isFavorite) {
+                        // صار مفضل → نعمل POST
+                        sellerViewModel.addFavoriteSeller(userId, seller.user_id)
+                    } else {
+                        // مبطل مفضل → نعمل DELETE
+                        sellerViewModel.removeFavoriteSeller(userId, seller.user_id)
+                    }
+                }
             )
+
             binding.rvSuggestedStores.adapter = sellersAdapter
             binding.rvSuggestedStores.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
         }
-
     }
+
     private fun observeNewProducts() {
         viewModel.getLiveAllProducts().observe(viewLifecycleOwner) { list ->
             newProductsAdapter = NewProductsAdapter(

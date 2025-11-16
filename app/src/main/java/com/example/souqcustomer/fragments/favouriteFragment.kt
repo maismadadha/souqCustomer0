@@ -41,6 +41,7 @@ class favouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val prefs = requireContext().getSharedPreferences("souq_prefs", AppCompatActivity.MODE_PRIVATE)
         userId = prefs.getInt("USER_ID", 0)
 
@@ -49,11 +50,34 @@ class favouriteFragment : Fragment() {
             object : OnClick {
                 override fun OnClick(sellerId: Int) {
                     val intent = Intent(requireContext(), StoreActivity::class.java)
-                    intent.putExtra("sellerId", sellerId) // مباشرة، بدون ما نعمل sellers[sellerId]
+                    intent.putExtra("sellerId", sellerId)
                     startActivity(intent)
+                }
+            },
+            onFavoriteClick = { storeId, position ->
+                // 1) شيل من السيرفر
+                viewModel.removeFavoriteSeller(userId, storeId)
+
+                // 2) شيل المتجر من الليست المعروضة
+                val currentList = favouriteStoresAdapter.seller
+                val newList = FavoriteStores()
+                newList.addAll(currentList)
+                if (position in newList.indices) {
+                    newList.removeAt(position)
+                }
+                favouriteStoresAdapter.submitList(newList)
+
+                // 3) حدّث حالة الـ "فارغة / لا"
+                if (newList.isEmpty()) {
+                    binding.rvFavouriteStores.visibility = View.GONE
+                    binding.tvEmptyFav.visibility = View.VISIBLE
+                } else {
+                    binding.rvFavouriteStores.visibility = View.VISIBLE
+                    binding.tvEmptyFav.visibility = View.GONE
                 }
             }
         )
+
 
         binding.rvFavouriteStores.apply {
             adapter = favouriteStoresAdapter
@@ -62,6 +86,7 @@ class favouriteFragment : Fragment() {
 
         viewModel.getFavoritesSellersByUserId(userId)
         observeFavoritesSellers()
+
     }
 
     private fun observeFavoritesSellers() {

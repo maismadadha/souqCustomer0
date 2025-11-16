@@ -2,6 +2,7 @@ package com.example.souqcustomer.retrofit
 
 import com.example.souqcustomer.pojo.AddToCartRequest
 import com.example.souqcustomer.pojo.AddToCartResponse
+import com.example.souqcustomer.pojo.AddToFavoriteRequest
 import com.example.souqcustomer.pojo.AddressDto
 import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
@@ -28,6 +29,7 @@ import com.example.souqcustomer.pojo.UpdateOrderMetaRequest
 import com.example.souqcustomer.pojo.UpdateOrderNoteRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
@@ -87,6 +89,20 @@ interface souqApi {
 
     @GET("users/{id}/favorites")
     fun getFavoritesSellersByUserId(@Path("id") id: Int): Call<FavoriteStores>
+
+    @POST("users/{user_id}/favorites")
+     fun addFavorite(
+        @Path("user_id") userId: Int,
+        @Body body: AddToFavoriteRequest
+    ): Call<SimpleResponse>
+
+    @DELETE("users/{user_id}/favorites/{store_id}")
+    fun removeFavorite(
+        @Path("user_id") userId: Int,
+        @Path("store_id") storeId: Int
+    ): Call<SimpleResponse>
+
+
 
     @POST("orders/add-to-cart")
     fun addToCart(

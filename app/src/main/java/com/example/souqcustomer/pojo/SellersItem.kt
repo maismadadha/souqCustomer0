@@ -14,6 +14,7 @@ data class SellersItem(
     val created_at: String,
     val preparation_days: Int?,
     val preparation_hours: Int?,
-    val delivery_price: Double?
+    val delivery_price: Double?,
+    var isFavorite: Boolean = false
 
 )

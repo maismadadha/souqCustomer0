@@ -12,7 +12,8 @@ import com.example.souqcustomer.pojo.Sellers
 
 class FavouriteStoresAdapter(
     var seller: FavoriteStores,
-    val listener: OnClick
+    val listener: OnClick,
+    val onFavoriteClick: (storeId: Int, position: Int) -> Unit
 ) : RecyclerView.Adapter<FavouriteStoresAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvFavouiteStoreItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -40,8 +41,10 @@ class FavouriteStoresAdapter(
 
         holder.binding.btnFavourite.isSelected = true
         holder.binding.btnFavourite.setOnClickListener {
-            holder.binding.btnFavourite.isSelected = !holder.binding.btnFavourite.isSelected
+            holder.binding.btnFavourite.isSelected = false
+            onFavoriteClick(item.store_id, position)
         }
+
 
         holder.itemView.setOnClickListener {
             listener.OnClick(item.store_id)

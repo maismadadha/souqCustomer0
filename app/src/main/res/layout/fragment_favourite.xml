@@ -40,15 +40,16 @@
         android:id="@+id/tvEmptyFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="لا يوجد متاجر مفضلة"
-        android:textSize="16sp"
-        android:textColor="@color/gray"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/cairo_bold"
+        android:text="لا يوجد متاجر مفضلة"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_favourite_stores"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favourite_stores"

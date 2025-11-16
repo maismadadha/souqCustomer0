@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.souqcustomer.pojo.AddToFavoriteRequest
 import com.example.souqcustomer.pojo.FavoriteStores
 import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
@@ -12,6 +13,7 @@ import com.example.souqcustomer.pojo.Products
 import com.example.souqcustomer.pojo.SellerCategories
 import com.example.souqcustomer.pojo.Sellers
 import com.example.souqcustomer.pojo.SellersItem
+import com.example.souqcustomer.pojo.SimpleResponse
 import com.example.souqcustomer.retrofit.RetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +29,9 @@ class SellerViewModel : ViewModel() {
     private val productOptions = MutableLiveData<ProductOptions>()
     private val sellersByMainCategory = MutableLiveData<Sellers>()
     private val favoritesSellers = MutableLiveData<FavoriteStores>()
+    private val favoriteActionResult = MutableLiveData<Boolean>()
+
+
 
 
     fun getSellerById(id: Int) {
@@ -183,6 +188,56 @@ class SellerViewModel : ViewModel() {
 
             })
     }
+    fun addFavoriteSeller(userId: Int, storeId: Int) {
+        val body = AddToFavoriteRequest(store_id = storeId)
+
+        RetrofitInterface.api.addFavorite(userId, body)
+            .enqueue(object : Callback<SimpleResponse> {
+                override fun onResponse(
+                    call: Call<SimpleResponse>,
+                    response: Response<SimpleResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        // نجاح الإضافة
+                        favoriteActionResult.value = true
+                        Log.d("AddFavorite", "Added successfully: ${response.body()?.message}")
+                    } else {
+                        // السيرفر رجع خطأ
+                        favoriteActionResult.value = false
+                        Log.e("AddFavorite", "Error code: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                    favoriteActionResult.value = false
+                    Log.e("AddFavorite", t.message.toString())
+                }
+            })
+    }
+    fun removeFavoriteSeller(userId: Int, storeId: Int) {
+        RetrofitInterface.api.removeFavorite(userId, storeId)
+            .enqueue(object : Callback<SimpleResponse> {
+                override fun onResponse(
+                    call: Call<SimpleResponse>,
+                    response: Response<SimpleResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        favoriteActionResult.value = true
+                        Log.d("RemoveFavorite", "Removed successfully: ${response.body()?.message}")
+                    } else {
+                        favoriteActionResult.value = false
+                        Log.e("RemoveFavorite", "Error code: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                    favoriteActionResult.value = false
+                    Log.e("RemoveFavorite", t.message.toString())
+                }
+            })
+    }
+
+
 
 
     fun getLiveSellerById(): LiveData<SellersItem> {
@@ -216,5 +271,6 @@ class SellerViewModel : ViewModel() {
     fun getLiveFavoritesSellers(): LiveData<FavoriteStores> {
         return favoritesSellers
     }
+    fun getLiveFavoriteActionResult(): LiveData<Boolean> = favoriteActionResult
 
 }

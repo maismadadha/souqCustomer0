@@ -7,8 +7,13 @@ import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvCustomisedCategoryBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Sellers
+import com.example.souqcustomer.pojo.SellersItem
 
-class CustomisedCategoryAdapter(val Sellers: Sellers, val listener: OnClick) :
+class CustomisedCategoryAdapter(
+    val Sellers: ArrayList<SellersItem>,
+    val listener: OnClick,
+    private val onFavoriteClick: (seller: SellersItem, position: Int) -> Unit
+) :
     RecyclerView.Adapter<CustomisedCategoryAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvCustomisedCategoryBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -35,8 +40,11 @@ class CustomisedCategoryAdapter(val Sellers: Sellers, val listener: OnClick) :
 
 
 
+        holder.binding.btnFavourite.isSelected = item.isFavorite
         holder.binding.btnFavourite.setOnClickListener {
-            holder.binding.btnFavourite.isSelected = !holder.binding.btnFavourite.isSelected
+            item.isFavorite = !item.isFavorite
+            holder.binding.btnFavourite.isSelected = item.isFavorite
+            onFavoriteClick(item, position)
         }
 
         holder.itemView.setOnClickListener {

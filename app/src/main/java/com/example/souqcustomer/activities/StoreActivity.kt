@@ -19,6 +19,8 @@ class StoreActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SellerViewModel
     private var sellerId: Int = 0
+    private var userId: Int = 0
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,8 @@ class StoreActivity : AppCompatActivity() {
 
 
         sellerId = intent?.getIntExtra("sellerId", 0) ?: 0
-
+        val prefs = getSharedPreferences("souq_prefs", MODE_PRIVATE)
+        userId = prefs.getInt("USER_ID", 0)
 
         viewModel = ViewModelProvider(this)[SellerViewModel::class.java]
 
@@ -38,9 +41,13 @@ class StoreActivity : AppCompatActivity() {
         viewModel.getSellerCategories(sellerId)
         observeSellerCategoriesLiveData()
 
+        viewModel.getFavoritesSellersByUserId(userId)
+        observeFavoritesLiveData()
+
+
         //favourite
         binding.btnFavourite.setOnClickListener {
-            binding.btnFavourite.isSelected = !binding.btnFavourite.isSelected
+            onFavoriteButtonClicked()
         }
 
         //back
@@ -121,5 +128,32 @@ class StoreActivity : AppCompatActivity() {
 
         }
     }
+
+    private fun observeFavoritesLiveData() {
+        viewModel.getLiveFavoritesSellers().observe(this) { favorites ->
+            if (favorites == null) return@observe
+
+            // نفترض أن FavoriteStores = List<Something فيه store_id>
+            val isFav = favorites.any { it.store_id == sellerId }
+
+            isFavorite = isFav
+            binding.btnFavourite.isSelected = isFav
+        }
+    }
+    private fun onFavoriteButtonClicked() {
+        // نقلب الحالة
+        val newState = !isFavorite
+        isFavorite = newState
+        binding.btnFavourite.isSelected = newState
+
+        if (newState) {
+            // صار مفضّل → POST
+            viewModel.addFavoriteSeller(userId, sellerId)
+        } else {
+            // مبطل مفضّل → DELETE
+            viewModel.removeFavoriteSeller(userId, sellerId)
+        }
+    }
+
 
 }
