@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SouqCustomer"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.AddressDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.OrdersDetalisActivity"
             android:exported="false" />
         <activity

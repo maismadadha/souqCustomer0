@@ -8,10 +8,14 @@ import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.CreateCustomerRequest
 import com.example.souqcustomer.pojo.CreateCustomerResponse
+import com.example.souqcustomer.pojo.CustomerProfile
+import com.example.souqcustomer.pojo.CustomerProfileRequest
 import com.example.souqcustomer.pojo.FavoriteStores
 import com.example.souqcustomer.pojo.LoginRequest
 import com.example.souqcustomer.pojo.LoginResponse
 import com.example.souqcustomer.pojo.OrderDto
+import com.example.souqcustomer.pojo.OrdersByCustomer
+import com.example.souqcustomer.pojo.OrdersByCustomerItem
 import com.example.souqcustomer.pojo.Product
 import com.example.souqcustomer.pojo.ProductImages
 import com.example.souqcustomer.pojo.ProductOptions
@@ -36,6 +40,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -157,6 +162,32 @@ interface souqApi {
         @Path("orderId") orderId: Int,
         @Body body: UpdateOrderMetaRequest
     ): Call<AddToCartResponse>
+
+    @GET("orders/customer")
+    fun getConfirmedOrders(
+        @Query("customer_id") customerId: Int
+    ): Call<OrdersByCustomer>
+
+    @GET("order/details")
+    fun getOrderDetails(
+        @Query("order_id") orderId: Int
+    ): Call<OrdersByCustomerItem>
+
+    @GET("customer-profiles/{id}")
+    fun getCustomerProfileById(
+        @Path("id") id: Int
+    ): Call<CustomerProfile>
+
+    @PATCH("customer-profiles/{id}")
+    fun updateCustomerProfile(
+        @Path("id") id: Int,
+        @Body body: CustomerProfileRequest
+    ): Call<CustomerProfile>
+
+
+
+
+
 
 
 

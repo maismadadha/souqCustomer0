@@ -3,11 +3,35 @@ package com.example.souqcustomer.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.RvPreviousOrdersItemBinding
+import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.OrdersByCustomer
+import com.example.souqcustomer.pojo.OrdersByCustomerItem
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-class previousOrdersAdapter(): RecyclerView.Adapter<previousOrdersAdapter.ViewHolder>() {
+
+
+class previousOrdersAdapter(
+    var orders: List<OrdersByCustomerItem>,
+    val listener: OnClick
+): RecyclerView.Adapter<previousOrdersAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: RvPreviousOrdersItemBinding): RecyclerView.ViewHolder(binding.root)
+
+    private val inputFormatter = DateTimeFormatter.ofPattern(
+        "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
+        Locale.US
+    ) // تنسيق التاريخ مع `Z`
+    private val dateFormatter =
+        DateTimeFormatter.ofPattern("d MMMM", Locale("ar"))  // عرض التاريخ بالعربية، مثل: 15 نوفمبر
+    private val timeFormatter =
+        DateTimeFormatter.ofPattern("h:mm a", Locale("ar"))   // عرض الوقت بالعربية، مثل: 9:21 م
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,11 +45,65 @@ class previousOrdersAdapter(): RecyclerView.Adapter<previousOrdersAdapter.ViewHo
         holder: ViewHolder,
         position: Int
     ) {
-        holder.binding.storeImg.setImageResource(R.drawable.img_store)
-        holder.binding.storeName.text="لونا باجز"
-        holder.binding.orderPrice.text="100.00 د.أ"
-        holder.binding.orderDate.text="21 يوليو"
+        val item = orders[position]
+        holder.binding.orderDate.text = formatDate(item.created_at)
+        holder.binding.orderTime.text = formatTime(item.created_at)
+        holder.binding.orderStatus.text = statusToArabic(item.status)
+
+        holder.binding.storeName.text=item.store_name
+        holder.binding.orderPrice.text=item.total_price
+        holder.binding.orderNumber.text=item.id.toString()
+        Glide.with(holder.itemView.context)
+            .load(item.store.seller_profile?.store_logo_url)
+            .into(holder.binding.storeImg)
+
+
+
+
+        holder.itemView.setOnClickListener {
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.OnClick(pos)
+            }
+        }
+
+
     }
 
-    override fun getItemCount(): Int =10
+    override fun getItemCount(): Int =orders.size
+
+    private fun formatDate(dateString: String): String {
+        return try {
+            val zonedDateTime = ZonedDateTime.parse(dateString)  // استخدم parse مباشرة
+                .withZoneSameInstant(ZoneId.of("Asia/Amman")) // تحويل إلى توقيت الأردن
+            dateFormatter.format(zonedDateTime) // تنسيق التاريخ
+        } catch (e: Exception) {
+            "خطأ في التاريخ"
+        }
+    }
+
+    private fun formatTime(dateString: String): String {
+        return try {
+            val zonedDateTime = ZonedDateTime.parse(dateString)  // استخدم parse مباشرة
+                .withZoneSameInstant(ZoneId.of("Asia/Amman")) // تحويل إلى توقيت الأردن
+            timeFormatter.format(zonedDateTime) // تنسيق الوقت
+        } catch (e: Exception) {
+            "خطأ في الوقت"
+        }
+    }
+
+    private fun statusToArabic(status: String): String {
+        return when (status) {
+            "ON_CART"          -> "في السلة"
+            "CONFIRMED"        -> "تم التأكيد"
+            "PREPARING"        -> "جاري التحضير"
+            "OUT_FOR_DELIVERY" -> "في الطريق"
+            "DELIVERED"        -> "تم الاستلام"
+            "CANCELLED"        -> "ملغي"
+            else               -> status
+        }
+    }
+
+
+
 }

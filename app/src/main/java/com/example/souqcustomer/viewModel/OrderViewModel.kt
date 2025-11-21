@@ -1,5 +1,6 @@
 package com.example.souqcustomer.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,8 @@ import com.example.souqcustomer.pojo.AddToCartResponse
 import com.example.souqcustomer.pojo.AddressDto
 import com.example.souqcustomer.pojo.OrderDto
 import com.example.souqcustomer.pojo.OrderItemDto
+import com.example.souqcustomer.pojo.OrdersByCustomer
+import com.example.souqcustomer.pojo.OrdersByCustomerItem
 import com.example.souqcustomer.pojo.SetOrderAddressRequest
 import com.example.souqcustomer.pojo.SetOrderAddressResponse
 import com.example.souqcustomer.pojo.SimpleMessageResponse
@@ -26,11 +29,14 @@ class OrderViewModel: ViewModel() {
     private val errorLiveData = MutableLiveData<String>()
     private val conflictLiveData = MutableLiveData<Int>() // cart_id لو 409
     private val cartOrderLiveData = MutableLiveData<OrderDto?>()
+    private val confirmedOrdersLiveData = MutableLiveData<OrdersByCustomer>()
     private val cartItemsLiveData = MutableLiveData<List<OrderItemDto>>()
 
     private var currentCustomerId: Int? = null
     private val addressesLive = MutableLiveData<List<AddressDto>>()
     private val confirmResult = MutableLiveData<Boolean>()
+    private val orderDetailsLiveData = MutableLiveData<OrdersByCustomerItem>()
+
 
 
     fun loadCustomerCart(customerId: Int) {
@@ -289,6 +295,51 @@ class OrderViewModel: ViewModel() {
         })
     }
 
+    fun getConfirmedOrders(customerId: Int) {
+        RetrofitInterface.api.getConfirmedOrders(customerId)
+            .enqueue(object : Callback<OrdersByCustomer> {
+                override fun onResponse(
+                    call: Call<OrdersByCustomer?>,
+                    response: Response<OrdersByCustomer?>
+                ) {
+                    if (response.isSuccessful) {
+                        confirmedOrdersLiveData.value = response.body()
+                        Log.d("CurrentOrdersAdapter0", "Created At: ${response.body()}")
+
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<OrdersByCustomer?>,
+                    t: Throwable
+                ) {
+                    errorLiveData.value = t.message
+                }
+
+            })
+    }
+
+    fun getOrderDetails(orderId: Int) {
+        RetrofitInterface.api.getOrderDetails(orderId).enqueue(object : Callback<OrdersByCustomerItem> {
+            override fun onResponse(
+                call: Call<OrdersByCustomerItem?>,
+                response: Response<OrdersByCustomerItem?>
+            ) {
+                if (response.isSuccessful) {
+                    orderDetailsLiveData.value = response.body()
+                }
+            }
+
+            override fun onFailure(
+                call: Call<OrdersByCustomerItem?>,
+                t: Throwable
+            ) {
+                errorLiveData.value = t.message
+            }
+        })
+    }
+
+
 
 
 
@@ -300,6 +351,9 @@ class OrderViewModel: ViewModel() {
 
     fun observeAddToCart(): LiveData<AddToCartResponse> = addToCartLiveData
     fun observeCartConflict(): LiveData<Int> = conflictLiveData
+    fun observeConfirmedOrders(): LiveData<OrdersByCustomer> = confirmedOrdersLiveData
+    fun observeOrderDetails(): LiveData<OrdersByCustomerItem> = orderDetailsLiveData
+
 
 
 

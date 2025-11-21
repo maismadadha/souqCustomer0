@@ -19,11 +19,17 @@ class otpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val userId = intent.getIntExtra("userId", 0)
+        val city=intent.getStringExtra("city_name")
 
 
         val prefs = getSharedPreferences("souq_prefs", MODE_PRIVATE)
         prefs.edit()
             .putInt("USER_ID", userId)
+            .apply()
+
+        val prefs2 = getSharedPreferences("souq_prefs", MODE_PRIVATE)
+        prefs2.edit()
+            .putString("CITY_NAME", city)
             .apply()
 
 

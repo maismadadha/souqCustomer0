@@ -14,4 +14,5 @@ data class Product(
     val store_category_id: Int,
     val store_id: Int,
     val updated_at: String
+
 )

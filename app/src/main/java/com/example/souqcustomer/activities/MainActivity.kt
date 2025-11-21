@@ -16,6 +16,8 @@ import com.example.souqcustomer.viewModel.SignUpViewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: SignUpViewModel
+    private lateinit var city: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             val second_name = binding.secondName.text.toString()
             val phone_number = binding.phoneNumber.text.toString()
             val email: String? = null
+            city= binding.citeName.text.toString()
+
 
             if (first_name.isEmpty() || second_name.isEmpty() || phone_number.isEmpty()) {
                 showCustomToast("يرجى تعبئة جميع الحقول")
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             showCustomToast("يرجى ادخال رمز التحقق لإنشاء الحساب")
             val intent = Intent(this, otpActivity::class.java)
             intent.putExtra("userId", userId)
+            intent.putExtra("city_name", city)
             startActivity(intent)
             finish()
         }

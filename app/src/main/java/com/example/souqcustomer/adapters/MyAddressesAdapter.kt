@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.souqcustomer.databinding.RvMyAddressesItemBinding
 import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.AddressDto
 
-class MyAddressesAdapter(val lisetener: OnClick): RecyclerView.Adapter<MyAddressesAdapter.ViewHolder>() {
+class MyAddressesAdapter(
+    private var addresses: List<AddressDto>,
+    val lisetener: OnClick): RecyclerView.Adapter<MyAddressesAdapter.ViewHolder>() {
         inner class ViewHolder(val binding: RvMyAddressesItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
@@ -22,11 +25,20 @@ class MyAddressesAdapter(val lisetener: OnClick): RecyclerView.Adapter<MyAddress
         holder: ViewHolder,
         position: Int
     ) {
+        val address = addresses[position]
+        holder.binding.addressName.text = address.address_name
+        holder.binding.addressDescription.text = "${address.city_name}, ${address.street ?: ""}, ${address.building_number ?: ""}"
+
+
         holder.itemView.setOnClickListener {
             lisetener.OnClick(position)
-            holder.binding.selectedAddressCheckMark.visibility = View.VISIBLE
         }
     }
 
-    override fun getItemCount(): Int =3
+    override fun getItemCount(): Int =addresses.size
+
+    fun updateList(newAddresses: List<AddressDto>) {
+        addresses = newAddresses
+        notifyDataSetChanged()
+    }
 }

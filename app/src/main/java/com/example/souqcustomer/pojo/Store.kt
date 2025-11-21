@@ -7,5 +7,6 @@ data class Store(
     val phone: String,
     val role: String,
     val created_at: String,
-    val updated_at: String
+    val updated_at: String,
+    val seller_profile: SellersItem?,
 )
