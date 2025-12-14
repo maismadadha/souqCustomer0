@@ -33,7 +33,7 @@ class CustomisedCategoryAdapter(
     ) {
         val item = Sellers[position]
         holder.binding.storeName.text = item.name
-        holder.binding.storeCategory.text = item.main_category.name
+        holder.binding.storeCategory.text = item.store_description
         Glide.with(holder.itemView.context)
             .load(item.store_logo_url)
             .into(holder.binding.storeLogo)

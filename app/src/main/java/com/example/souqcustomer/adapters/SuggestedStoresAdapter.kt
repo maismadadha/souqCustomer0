@@ -39,6 +39,7 @@ class SuggestedStoresAdapter(
         Log.d("Sellers", "onBindViewHolder: $sellers")
         val item = sellers[position]
         holder.binding.storeName.text = item.name ?: ""
+        holder.binding.storeDescription.text = item.store_description ?: ""
         Glide.with(holder.itemView.context)
             .load(item.store_cover_url ?: "")
             .placeholder(R.drawable.category)

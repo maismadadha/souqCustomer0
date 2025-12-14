@@ -157,6 +157,7 @@ interface souqApi {
     ): Call<SetOrderAddressResponse>
 
 
+
     @PUT("orders/{orderId}/meta")
     fun updateOrderMeta(
         @Path("orderId") orderId: Int,
@@ -184,6 +185,11 @@ interface souqApi {
         @Body body: CustomerProfileRequest
     ): Call<CustomerProfile>
 
+
+    @GET("sellers/search")
+    suspend fun searchSellers(
+        @Query("q") query: String
+    ): Response<List<SellersItem>>
 
 
 

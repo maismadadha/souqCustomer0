@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.R
 import com.example.souqcustomer.adapters.OrderDetailsItemsAdapter
 import com.example.souqcustomer.databinding.ActivityOrdersDetalisBinding
@@ -48,13 +49,16 @@ class OrdersDetalisActivity : AppCompatActivity() {
         viewModel.getOrderDetails(orderId)
         viewModel.observeOrderDetails().observe(this) { order ->
             if (order != null) {
-                binding.storeName.text = order.store_name
+                binding.storeName.text = order.store.seller_profile?.name
                 binding.orderId.text = order.id.toString()
                 binding.orderDate.text = formatDate(order.created_at)
                 binding.orderTime.text = formatTime(order.created_at)
                 binding.orderStatus.text = statusToArabic(order.status)
                 binding.totalPrice.text = order.total_price
                 binding.deliveryPrice.text = order.delivery_fee
+                Glide.with(this)
+                    .load(order.store.seller_profile?.store_logo_url)
+                    .into(binding.storeLogo)
                 val adapter = OrderDetailsItemsAdapter(order.items)
                 binding.rvOrderItems.adapter = adapter
                 binding.rvOrderItems.layoutManager =

@@ -66,7 +66,7 @@ class ProductActivity : AppCompatActivity() {
         binding.btnAddToCart.setOnClickListener {
             if (!binding.btnAddToCart.isEnabled) return@setOnClickListener
 
-            if (userId == 0 || storeId == 0 || priceValue == 0.0) {
+            if (userId == 0 || storeId == 0 ) {
                 Toast.makeText(this, "خطأ في بيانات المستخدم أو المنتج", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -184,9 +184,6 @@ class ProductActivity : AppCompatActivity() {
                 customizations[option.name] = selectedValue.label
             }
         }
-
-        if (userId == 0 || storeId == 0 || priceValue == 0.0) {
-            Toast.makeText(this, "خطأ في بيانات المستخدم أو المنتج", Toast.LENGTH_SHORT).show()}
 
     }
 

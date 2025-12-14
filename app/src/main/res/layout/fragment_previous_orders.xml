@@ -8,6 +8,22 @@
     tools:context=".fragments.PreviousOrdersFragment">
 
 
+    <TextView
+        android:id="@+id/tv_no_previous_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/cairo_bold"
+        android:text="لا يوجد طلبات سابقة"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_previous_orders"
         android:layout_width="match_parent"

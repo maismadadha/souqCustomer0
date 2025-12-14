@@ -50,6 +50,7 @@
                 android:id="@+id/notification"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:visibility="invisible"
                 android:scaleType="centerCrop"
                 android:src="@drawable/notification" />
         </LinearLayout>

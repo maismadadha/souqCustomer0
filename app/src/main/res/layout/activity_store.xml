@@ -83,7 +83,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="-40dp"
                 android:layout_marginBottom="10dp"
@@ -96,7 +96,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout

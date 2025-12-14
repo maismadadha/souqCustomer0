@@ -5,15 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.souqcustomer.databinding.RvSearchItemsBinding
 import com.example.souqcustomer.interface0.OnClick
+import com.example.souqcustomer.pojo.SellersItem
 
-class SearchResultsAdapter(val listener : OnClick) : RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: RvSearchItemsBinding) : RecyclerView.ViewHolder(binding.root)
+class SearchResultsAdapter(
+    private val listener: OnClick
+) : RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
+
+    private val items = mutableListOf<SellersItem>()
+
+    inner class ViewHolder(val binding: RvSearchItemsBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = RvSearchItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = RvSearchItemsBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ViewHolder(binding)
     }
 
@@ -21,13 +32,31 @@ class SearchResultsAdapter(val listener : OnClick) : RecyclerView.Adapter<Search
         holder: ViewHolder,
         position: Int
     ) {
+        val seller = items[position]
+
+        // اسم المتجر
+        holder.binding.storeName.text = seller.name
+
+        // زر المفضلة (UI فقط)
         holder.binding.btnFavourite.setOnClickListener {
-            holder.binding.btnFavourite.isSelected = !holder.binding.btnFavourite.isSelected
+            it.isSelected = !it.isSelected
         }
+
+        // الضغط على المتجر
         holder.itemView.setOnClickListener {
-            listener.OnClick(position)
+            listener.OnClick(seller.user_id)
         }
     }
 
-    override fun getItemCount(): Int =15
+    override fun getItemCount(): Int = items.size
+
+    // 👈 هاي أهم دالة
+    fun submitList(list: List<SellersItem>) {
+        items.clear()
+        items.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    // عشان نجيب العنصر بالـ Activity
+    fun getItem(position: Int): SellersItem = items[position]
 }

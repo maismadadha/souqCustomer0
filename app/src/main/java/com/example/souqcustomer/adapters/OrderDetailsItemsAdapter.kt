@@ -17,7 +17,7 @@ class OrderDetailsItemsAdapter(val items: List<OrderItemDto>) : RecyclerView.Ada
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-      val  binding = RcOrderItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+     val binding=RcOrderItemsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
