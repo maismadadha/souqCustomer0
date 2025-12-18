@@ -47,19 +47,19 @@ class CurrentOrders : Fragment() {
 
         viewModel.observeConfirmedOrders().observe(viewLifecycleOwner) { orders ->
 
-            // الطلبات الحالية فقط
+
             val currentOrders = orders.filter {
                 it.status == "CONFIRMED" ||
                         it.status == "PREPARING" ||
+                        it.status == "READY_FOR_PICKUP" ||
                         it.status == "OUT_FOR_DELIVERY"
             }
 
+
             if (currentOrders.isEmpty()) {
-                // 🔴 ما في طلبات
                 binding.tvNoOrders.visibility = View.VISIBLE
                 binding.rvCurrentOrders.visibility = View.GONE
             } else {
-                // 🟢 في طلبات
                 binding.tvNoOrders.visibility = View.GONE
                 binding.rvCurrentOrders.visibility = View.VISIBLE
 
@@ -83,5 +83,10 @@ class CurrentOrders : Fragment() {
                 binding.rvCurrentOrders.adapter = adapter
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getConfirmedOrders(userId)
     }
 }

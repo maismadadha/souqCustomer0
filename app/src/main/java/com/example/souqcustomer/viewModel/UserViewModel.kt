@@ -67,8 +67,10 @@ class UserViewModel : ViewModel() {
                 call: Call<Sellers?>,
                 response: Response<Sellers?>
             ) {
-                if(response.isSuccessful)
+                if(response.isSuccessful){
                     sellers.value=response.body()
+                    Log.d("sellerViewModel0",response.body().toString())
+                }
             }
 
             override fun onFailure(

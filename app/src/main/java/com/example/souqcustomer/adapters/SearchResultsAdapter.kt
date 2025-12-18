@@ -3,6 +3,7 @@ package com.example.souqcustomer.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.souqcustomer.databinding.RvSearchItemsBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.SellersItem
@@ -36,6 +37,10 @@ class SearchResultsAdapter(
 
         // اسم المتجر
         holder.binding.storeName.text = seller.name
+        holder.binding.storeCategory.text=seller.main_category.name
+        Glide.with(holder.itemView.context)
+            .load(seller.store_logo_url?:"")
+            .into(holder.binding.storeLogo)
 
         // زر المفضلة (UI فقط)
         holder.binding.btnFavourite.setOnClickListener {

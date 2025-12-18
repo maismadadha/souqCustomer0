@@ -96,11 +96,13 @@ class CurrentOrdersAdapter(
             "ON_CART" -> "في السلة"
             "CONFIRMED" -> "تم التأكيد"
             "PREPARING" -> "جاري التحضير"
+            "READY_FOR_PICKUP" -> "الطلب جاهز"
             "OUT_FOR_DELIVERY" -> "في الطريق"
             "DELIVERED" -> "تم الاستلام"
             "CANCELLED" -> "ملغي"
             else -> status
         }
     }
+
 
 }

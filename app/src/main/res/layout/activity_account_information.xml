@@ -60,7 +60,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/change_info"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:background="@drawable/mauve_bt_bg"
         android:elevation="0dp"
         android:fontFamily="@font/cairo_semi_bold"

@@ -36,6 +36,7 @@ class AddressesActivity : AppCompatActivity() {
             override fun OnClick(index: Int) {
                 val address = addresses[index]
                 val intent = Intent(this@AddressesActivity, AddressDetailsActivity::class.java)
+                intent.putExtra("address_id", address.id)
                 intent.putExtra("address_name", address.address_name)
                 intent.putExtra("city_name", address.city_name)
                 intent.putExtra("street", address.street)

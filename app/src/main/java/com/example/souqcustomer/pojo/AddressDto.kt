@@ -1,15 +1,22 @@
 package com.example.souqcustomer.pojo
 
 data class AddressDto(
-    val address_name: String,
-    val address_note: String,
-    val building_number: Int,
-    val city_name: String,
-    val created_at: String,
     val id: Int,
+    val user_id: Int,
+
+    val address_name: String,
+
+    val city_name: String,
+
+    val street: String?,           // ✅ nullable
+    val building_number: Int?,      // ✅ nullable
+    val address_note: String?,      // ✅ nullable
+
     val latitude: Double,
     val longitude: Double,
-    val street: String,
+
+    val created_at: String,
     val updated_at: String,
-    val user_id: Int
+
+    val is_default: Int
 )

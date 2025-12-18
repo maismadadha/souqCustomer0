@@ -144,9 +144,9 @@ interface souqApi {
         @Path("orderId") orderId: Int
     ): Call<AddToCartResponse>
 
-    @GET("addresses")
+    @GET("users/{userId}/addresses")
     fun getUserAddresses(
-        @Query("user_id") userId: Int
+        @Path("userId") userId: Int
     ): Call<List<AddressDto>>
 
     @FormUrlEncoded
