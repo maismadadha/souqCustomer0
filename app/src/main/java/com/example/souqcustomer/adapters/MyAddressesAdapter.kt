@@ -1,5 +1,7 @@
 package com.example.souqcustomer.adapters
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +33,13 @@ class MyAddressesAdapter(
 
 
         holder.itemView.setOnClickListener {
-            lisetener.OnClick(position)
+            val lat = address.latitude
+            val lng = address.longitude
+
+            val uri = Uri.parse("geo:$lat,$lng?q=$lat,$lng")
+            val mapIntent = Intent(Intent.ACTION_VIEW, uri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            holder.itemView.context.startActivity(mapIntent)
         }
     }
 

@@ -37,6 +37,9 @@ class CategoriesAdadpter(
         Glide.with(holder.itemView.context)
             .load(item.image?: "")
             .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
+            .placeholder(R.drawable.category)
             .into(holder.binding.imgCategory)
 
         holder.itemView.setOnClickListener {

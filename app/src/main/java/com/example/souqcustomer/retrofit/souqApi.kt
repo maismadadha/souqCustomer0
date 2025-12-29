@@ -4,6 +4,8 @@ import com.example.souqcustomer.pojo.AddToCartRequest
 import com.example.souqcustomer.pojo.AddToCartResponse
 import com.example.souqcustomer.pojo.AddToFavoriteRequest
 import com.example.souqcustomer.pojo.AddressDto
+import com.example.souqcustomer.pojo.AddressRequest
+import com.example.souqcustomer.pojo.AddressResponse
 import com.example.souqcustomer.pojo.AllProducts
 import com.example.souqcustomer.pojo.Categories2
 import com.example.souqcustomer.pojo.CreateCustomerRequest
@@ -33,6 +35,7 @@ import com.example.souqcustomer.pojo.UpdateOrderMetaRequest
 import com.example.souqcustomer.pojo.UpdateOrderNoteRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -191,11 +194,11 @@ interface souqApi {
         @Query("q") query: String
     ): Response<List<SellersItem>>
 
-
-
-
-
-
+    @POST("users/{id}/addresses")
+    fun addAddress(
+        @Path("id") id: Int,
+        @Body body: AddressRequest
+    ): Call<AddressResponse>
 
 
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.RvCurrentOrdersItemBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.OrdersByCustomerItem
@@ -55,6 +56,9 @@ class CurrentOrdersAdapter(
         holder.binding.orderNumber.text = item.id.toString()
         Glide.with(holder.itemView.context)
             .load(item.store.seller_profile?.store_logo_url)
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.storeImg)
 
 

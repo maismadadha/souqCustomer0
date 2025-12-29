@@ -21,14 +21,12 @@
             android:layout_height="30dp"
             android:scaleType="centerCrop"
             android:src="@drawable/btn_favourite_selector" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:layout_marginHorizontal="10dp"
             android:gravity="center_vertical|end">
 
@@ -47,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="صحة و جمال"
                 android:textSize="8sp"
+                android:maxLines="2"
                 android:fontFamily="@font/cairo_regular"
                 android:textColor="@color/black" />
 

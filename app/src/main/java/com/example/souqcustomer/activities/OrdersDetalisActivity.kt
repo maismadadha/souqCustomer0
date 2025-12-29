@@ -58,6 +58,9 @@ class OrdersDetalisActivity : AppCompatActivity() {
                 binding.deliveryPrice.text = order.delivery_fee
                 Glide.with(this)
                     .load(order.store.seller_profile?.store_logo_url)
+                    .placeholder(R.drawable.category)
+                    .error(R.drawable.category)
+                    .centerCrop()
                     .into(binding.storeLogo)
                 val adapter = OrderDetailsItemsAdapter(order.items)
                 binding.rvOrderItems.adapter = adapter

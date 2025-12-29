@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.RvProductImagesItemBinding
 import com.example.souqcustomer.pojo.ProductImages
 
@@ -25,6 +26,9 @@ class ProductImagesAdapter(val images: ProductImages): RecyclerView.Adapter<Prod
         val item=images[position]
         Glide.with(holder.itemView.context)
             .load(item.image_url)
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.productImg)
 
     }

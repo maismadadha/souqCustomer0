@@ -36,6 +36,9 @@ class FavouriteStoresAdapter(
         holder.binding.storeCategory.text = item.main_category
         Glide.with(holder.itemView.context)
             .load(item.store_logo_url)
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.storeLogo)
 
 

@@ -3,6 +3,7 @@ package com.example.souqcustomer.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,17 @@ class AddressesActivity : AppCompatActivity() {
     private var addresses: List<AddressDto> = emptyList()
     private var userId: Int = 0
 
+    private val addAddressLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                orderViewModel.getUserAddresses(userId)
+            }
+        }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,14 +46,7 @@ class AddressesActivity : AppCompatActivity() {
         // Adapter مهيأ مرة وحدة فقط
         adapter = MyAddressesAdapter(addresses, object : OnClick {
             override fun OnClick(index: Int) {
-                val address = addresses[index]
-                val intent = Intent(this@AddressesActivity, AddressDetailsActivity::class.java)
-                intent.putExtra("address_id", address.id)
-                intent.putExtra("address_name", address.address_name)
-                intent.putExtra("city_name", address.city_name)
-                intent.putExtra("street", address.street)
-                intent.putExtra("building_number", address.building_number)
-                startActivity(intent)
+               //
             }
         })
 
@@ -55,7 +60,7 @@ class AddressesActivity : AppCompatActivity() {
 
         binding.addAddressBtn.setOnClickListener {
             val intent = Intent(this, AddNewAddressActivity::class.java)
-            startActivity(intent)
+            addAddressLauncher.launch(intent)
         }
     }
 

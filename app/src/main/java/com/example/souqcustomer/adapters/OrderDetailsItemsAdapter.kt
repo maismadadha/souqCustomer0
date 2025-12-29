@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.RcOrderItemsBinding
 import com.example.souqcustomer.pojo.OrderItemDto
 
@@ -45,6 +46,9 @@ class OrderDetailsItemsAdapter(val items: List<OrderItemDto>) : RecyclerView.Ada
 
         Glide.with(holder.itemView.context)
             .load(item.product?.main_image_url)
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.itemImage)
         Log.d("CartAdapter", "img = ${item.product?.main_image_url}")
 

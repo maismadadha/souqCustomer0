@@ -55,6 +55,9 @@ class previousOrdersAdapter(
         holder.binding.orderNumber.text=item.id.toString()
         Glide.with(holder.itemView.context)
             .load(item.store.seller_profile?.store_logo_url)
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.storeImg)
 
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.souqcustomer.R
 import com.example.souqcustomer.databinding.RvProductsByCategoryItemBinding
 import com.example.souqcustomer.interface0.OnClick
 import com.example.souqcustomer.pojo.Products
@@ -31,6 +32,9 @@ class ProductsByCategoryAdapter(val products : ArrayList<ProductsItem>, val list
         holder.binding.productDescription.text=item.description
         Glide.with(holder.itemView.context)
             .load(item.cover_image?:"")
+            .placeholder(R.drawable.category)
+            .error(R.drawable.category)
+            .centerCrop()
             .into(holder.binding.productImg)
 
         holder.binding.btnAddToCart.setOnClickListener {

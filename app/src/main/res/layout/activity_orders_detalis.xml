@@ -164,7 +164,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/store_cover_img" />
+                        android:src="@drawable/category" />
                 </com.google.android.material.card.MaterialCardView>
 
 

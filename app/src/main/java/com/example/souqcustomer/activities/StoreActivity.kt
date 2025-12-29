@@ -118,9 +118,15 @@ class StoreActivity : AppCompatActivity() {
 
                 Glide.with(this)
                     .load(seller.store_logo_url)
+                    .placeholder(R.drawable.category)
+                    .error(R.drawable.category)
+                    .centerCrop()
                     .into(binding.storeLogo)
                 Glide.with(this)
                     .load(seller.store_cover_url)
+                    .placeholder(R.drawable.category)
+                    .error(R.drawable.category)
+                    .centerCrop()
                     .into(binding.storeCover)
 
             }
